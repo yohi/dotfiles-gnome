@@ -70,9 +70,12 @@ test_extension_settings() {
     log "Astra Monitor設定をテスト中..."
 
     # Test Astra Monitor settings
-    local memory_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/memory-header-percentage)
-    local cpu_frequency=$(dconf read /org/gnome/shell/extensions/astra-monitor/processor-header-frequency)
-    local cpu_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/processor-header-percentage)
+    local memory_percentage
+    memory_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/memory-header-percentage)
+    local cpu_frequency
+    cpu_frequency=$(dconf read /org/gnome/shell/extensions/astra-monitor/processor-header-frequency)
+    local cpu_percentage
+    cpu_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/processor-header-percentage)
 
     if [ "$memory_percentage" = "true" ]; then
         success "✓ Astra Monitor: メモリパーセンテージ表示が有効"
@@ -95,8 +98,10 @@ test_extension_settings() {
     log "Search Light設定をテスト中..."
 
     # Test Search Light settings
-    local scale_width=$(dconf read /org/gnome/shell/extensions/search-light/scale-width)
-    local scale_height=$(dconf read /org/gnome/shell/extensions/search-light/scale-height)
+    local scale_width
+    scale_width=$(dconf read /org/gnome/shell/extensions/search-light/scale-width)
+    local scale_height
+    scale_height=$(dconf read /org/gnome/shell/extensions/search-light/scale-height)
     local expected_scale="0.1"
 
     if float_equals "$scale_width" "$expected_scale"; then
@@ -114,8 +119,10 @@ test_extension_settings() {
     log "Bluetooth拡張機能設定をテスト中..."
 
     # Test Bluetooth settings
-    local auto_power=$(dconf read /org/gnome/shell/extensions/bluetooth-quick-connect/bluetooth-auto-power-on)
-    local show_battery=$(dconf read /org/gnome/shell/extensions/bluetooth-battery-indicator/show-battery-value-on)
+    local auto_power
+    auto_power=$(dconf read /org/gnome/shell/extensions/bluetooth-quick-connect/bluetooth-auto-power-on)
+    local show_battery
+    show_battery=$(dconf read /org/gnome/shell/extensions/bluetooth-battery-indicator/show-battery-value-on)
 
     if [ "$auto_power" = "true" ]; then
         success "✓ Bluetooth Quick Connect: 自動電源オンが有効"
@@ -139,7 +146,8 @@ test_settings_backup_restore() {
     log "現在の設定をバックアップ中..."
 
     # Create backup directory
-    local backup_dir="/tmp/gnome-ext-backup-$(date +%Y%m%d_%H%M%S)"
+    local backup_dir
+    backup_dir="/tmp/gnome-ext-backup-$(date +%Y%m%d_%H%M%S)"
     mkdir -p "$backup_dir"
 
     # Backup current settings
@@ -153,8 +161,10 @@ test_settings_backup_restore() {
     fi
 
     log "設定ファイルのサイズを確認中..."
-    local backup_size=$(wc -l < "$backup_dir/extensions-backup.dconf")
-    local original_size=$(wc -l < "$SCRIPT_DIR/extensions-settings.dconf")
+    local backup_size
+    backup_size=$(wc -l < "$backup_dir/extensions-backup.dconf")
+    local original_size
+    original_size=$(wc -l < "$SCRIPT_DIR/extensions-settings.dconf")
 
     echo "  - バックアップファイル: $backup_size 行"
     echo "  - オリジナルファイル: $original_size 行"
@@ -190,7 +200,8 @@ test_settings_application() {
     sleep 2
 
     # Verify some key settings are still applied
-    local memory_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/memory-header-percentage)
+    local memory_percentage
+    memory_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/memory-header-percentage)
     if [ "$memory_percentage" = "true" ]; then
         success "✓ 設定の再適用後も設定が保持されています"
     else
@@ -218,7 +229,8 @@ main() {
     echo "==================="
 
     # Count enabled extensions
-    local enabled_count=$(gnome-extensions list --enabled | wc -l)
+    local enabled_count
+    enabled_count=$(gnome-extensions list --enabled | wc -l)
     echo "  - 有効化された拡張機能: $enabled_count 個"
 
     # Check if critical extensions are enabled

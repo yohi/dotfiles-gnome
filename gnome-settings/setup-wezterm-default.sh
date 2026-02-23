@@ -6,29 +6,8 @@
 
 set -euo pipefail
 
-# 色の定義
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-
-# ログ関数
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
-}
-
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
-}
-
-log_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-}
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/logging.sh"
 
 # Weztermがインストールされているかチェック
 check_wezterm_installation() {
@@ -236,33 +215,45 @@ test_terminal_setting() {
     local test_passed=true
 
     # gsettingsの設定を確認
-    local test_exec
-    test_exec=$(gsettings get org.gnome.desktop.default-applications.terminal exec 2>/dev/null)
+    if command -v gsettings >/dev/null 2>&1; then
+        local test_exec
+        test_exec=$(gsettings get org.gnome.desktop.default-applications.terminal exec 2>/dev/null)
 
-    if [[ "$test_exec" == "'wezterm'" ]]; then
-        log_success "✓ gsettingsの設定が正しく適用されています"
+        if [[ "$test_exec" == "'wezterm'" ]]; then
+            log_success "✓ gsettingsの設定が正しく適用されています"
+        else
+            log_error "✗ gsettingsの設定に問題があります: $test_exec"
+            test_passed=false
+        fi
     else
-        log_error "✗ gsettingsの設定に問題があります: $test_exec"
-        test_passed=false
+        log_warning "⚠ gsettingsコマンドが見つかりません。テストをスキップします"
     fi
 
     # update-alternativesの設定を確認
-    local alternatives_current
-    alternatives_current=$(update-alternatives --query x-terminal-emulator 2>/dev/null | grep "Value:" | cut -d' ' -f2 || echo "")
+    if command -v update-alternatives >/dev/null 2>&1; then
+        local alternatives_current
+        alternatives_current=$(update-alternatives --query x-terminal-emulator 2>/dev/null | grep "Value:" | cut -d' ' -f2 || echo "")
 
-    if [[ "$alternatives_current" == *"wezterm"* ]]; then
-        log_success "✓ update-alternativesの設定が正しく適用されています"
+        if [[ "$alternatives_current" == *"wezterm"* ]]; then
+            log_success "✓ update-alternativesの設定が正しく適用されています"
+        else
+            log_error "✗ update-alternativesの設定に問題があります: $alternatives_current"
+            test_passed=false
+        fi
     else
-        log_error "✗ update-alternativesの設定に問題があります: $alternatives_current"
-        test_passed=false
+        log_warning "⚠ update-alternativesコマンドが見つかりません。テストをスキップします"
     fi
 
     # x-terminal-emulatorコマンドのテスト
-    if x-terminal-emulator --version 2>/dev/null | grep -q "wezterm"; then
-        log_success "✓ x-terminal-emulatorがweztermを指しています"
+    if command -v x-terminal-emulator >/dev/null 2>&1; then
+        if x-terminal-emulator --version 2>/dev/null | grep -q "wezterm"; then
+            log_success "✓ x-terminal-emulatorがweztermを指しています"
+        else
+            log_error "✗ x-terminal-emulatorがweztermを指していません"
+            test_passed=false
+        fi
     else
-        log_error "✗ x-terminal-emulatorがweztermを指していません"
-        test_passed=false
+        log_warning "⚠ x-terminal-emulatorコマンドが見つかりません。テストをスキップします"
     fi
 
     # コマンドの実行確認
@@ -293,7 +284,7 @@ restart_nautilus() {
 
     # Nautilusを起動（バックグラウンド）
     nautilus --no-desktop >/dev/null 2>&1 &
-    disown
+    disown 2>/dev/null || true
 
     log_success "Nautilusを再起動しました"
 }

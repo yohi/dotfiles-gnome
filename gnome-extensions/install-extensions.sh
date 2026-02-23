@@ -6,32 +6,6 @@
 
 set -euo pipefail
 
-# Check for required dependencies
-check_dependencies() {
-    local dependencies=("curl" "unzip" "python3" "gnome-shell" "gnome-extensions" "dconf" "jq")
-    local missing_deps=()
-
-    log "必要な依存関係をチェック中..."
-
-    for cmd in "${dependencies[@]}"; do
-        if ! command -v "$cmd" &> /dev/null; then
-            missing_deps+=("$cmd")
-        fi
-    done
-
-    if [ ${#missing_deps[@]} -ne 0 ]; then
-        error "以下の必要なコマンドが見つかりません:"
-        for dep in "${missing_deps[@]}"; do
-            echo "  - $dep"
-        done
-        echo ""
-        error "必要な依存関係をインストールしてからスクリプトを再実行してください"
-        exit 1
-    fi
-
-    success "すべての必要な依存関係が利用可能です"
-}
-
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -57,6 +31,32 @@ warning() {
 
 error() {
     echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Check for required dependencies
+check_dependencies() {
+    local dependencies=("curl" "unzip" "python3" "gnome-shell" "gnome-extensions" "dconf" "jq")
+    local missing_deps=()
+
+    log "必要な依存関係をチェック中..."
+
+    for cmd in "${dependencies[@]}"; do
+        if ! command -v "$cmd" &> /dev/null; then
+            missing_deps+=("$cmd")
+        fi
+    done
+
+    if [ ${#missing_deps[@]} -ne 0 ]; then
+        error "以下の必要なコマンドが見つかりません:"
+        for dep in "${missing_deps[@]}"; do
+            echo "  - $dep"
+        done
+        echo ""
+        error "必要な依存関係をインストールしてからスクリプトを再実行してください"
+        exit 1
+    fi
+
+    success "すべての必要な依存関係が利用可能です"
 }
 
 # Check if running in GNOME
@@ -409,7 +409,8 @@ compile_all_schemas() {
     if [ -d "$extensions_dir" ]; then
         for extension_dir in "$extensions_dir"/*; do
             if [ -d "$extension_dir" ]; then
-                local extension_uuid=$(basename "$extension_dir")
+                local extension_uuid
+                extension_uuid=$(basename "$extension_dir")
                 if compile_extension_schemas "$extension_uuid"; then
                     ((compiled_count++))
                 fi
