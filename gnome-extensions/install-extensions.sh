@@ -61,7 +61,8 @@ check_dependencies() {
 
 # Check if running in GNOME
 check_gnome() {
-    if [ "$XDG_CURRENT_DESKTOP" != "GNOME" ] && [ "$XDG_CURRENT_DESKTOP" != "ubuntu:GNOME" ] && [ "$XDG_CURRENT_DESKTOP" != "Unity" ]; then
+    local current_desktop="${XDG_CURRENT_DESKTOP:-}"
+    if [ "$current_desktop" != "GNOME" ] && [ "$current_desktop" != "ubuntu:GNOME" ] && [ "$current_desktop" != "Unity" ]; then
         error "このスクリプトはGNOME/Unityデスクトップ環境でのみ動作します"
         exit 1
     fi
@@ -109,9 +110,12 @@ compile_extension_schemas() {
 
             # 必要なツールのチェック
             if ! command -v glib-compile-schemas >/dev/null 2>&1; then
-                warning "glib-compile-schemas が見つかりません。必要なパッケージをインストール中..."
-                sudo apt update
-                sudo apt install -y libglib2.0-dev-bin libglib2.0-dev
+                if command -v apt >/dev/null 2>&1; then
+                    warning "glib-compile-schemas が見つかりません。必要なパッケージをインストール中..."
+                    sudo apt update && sudo apt install -y libglib2.0-dev-bin libglib2.0-dev
+                else
+                    warning "apt パッケージマネージャーが見つかりません。インストールをスキップします。"
+                fi
             fi
 
             if glib-compile-schemas "$schemas_dir" 2>/dev/null; then

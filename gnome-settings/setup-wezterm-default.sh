@@ -140,7 +140,11 @@ check_current_default_terminal() {
 
     current_exec=$(gsettings get org.gnome.desktop.default-applications.terminal exec 2>/dev/null || echo "設定なし")
     current_arg=$(gsettings get org.gnome.desktop.default-applications.terminal exec-arg 2>/dev/null || echo "設定なし")
-    alternatives_current=$(update-alternatives --query x-terminal-emulator 2>/dev/null | grep "Value:" | cut -d' ' -f2 || echo "設定なし")
+    if ! command -v update-alternatives >/dev/null 2>&1; then
+        alternatives_current="N/A (update-alternativesなし)"
+    else
+        alternatives_current=$(update-alternatives --query x-terminal-emulator 2>/dev/null | grep "Value:" | cut -d' ' -f2 || echo "設定なし")
+    fi
 
     echo "現在の設定:"
     echo "  gsettings実行ファイル: $current_exec"
@@ -159,6 +163,9 @@ check_current_default_terminal() {
 
     if [[ "$alternatives_current" == *"wezterm"* ]]; then
         log_success "✓ update-alternativesでWeztermが設定されています"
+        alternatives_ok=true
+    elif [[ "$alternatives_current" == *"N/A"* ]]; then
+        log_info "ℹ update-alternativesは利用できないため、チェックをスキップします"
         alternatives_ok=true
     else
         log_warning "✗ update-alternativesでWeztermが設定されていません"

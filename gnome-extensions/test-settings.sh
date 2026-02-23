@@ -31,6 +31,9 @@ error() {
 
 # Function to compare floating point numbers with tolerance
 float_equals() {
+    if ! command -v bc >/dev/null 2>&1; then
+        return 1
+    fi
     local val1="$1"
     local val2="$2"
     local epsilon="${3:-0.0001}"  # Default epsilon of 0.0001
@@ -48,11 +51,11 @@ float_equals() {
     # Convert to integer by multiplying by 10000 for precision
     local int_val1 int_val2 int_epsilon
     int_val1=$(echo "$val1 * 10000" | bc -l 2>/dev/null)
-    if [ $? -ne 0 ] || [ -z "$int_val1" ]; then int_val1=0; else int_val1=$(printf "%.0f" "$int_val1"); fi
+    if [ $? -ne 0 ] || [ -z "$int_val1" ]; then return 1; else int_val1=$(printf "%.0f" "$int_val1"); fi
     int_val2=$(echo "$val2 * 10000" | bc -l 2>/dev/null)
-    if [ $? -ne 0 ] || [ -z "$int_val2" ]; then int_val2=0; else int_val2=$(printf "%.0f" "$int_val2"); fi
+    if [ $? -ne 0 ] || [ -z "$int_val2" ]; then return 1; else int_val2=$(printf "%.0f" "$int_val2"); fi
     int_epsilon=$(echo "$epsilon * 10000" | bc -l 2>/dev/null)
-    if [ $? -ne 0 ] || [ -z "$int_epsilon" ]; then int_epsilon=1; else int_epsilon=$(printf "%.0f" "$int_epsilon"); fi
+    if [ $? -ne 0 ] || [ -z "$int_epsilon" ]; then return 1; else int_epsilon=$(printf "%.0f" "$int_epsilon"); fi
 
     # Calculate absolute difference using shell arithmetic
     local diff=$((int_val1 - int_val2))
@@ -71,11 +74,11 @@ test_extension_settings() {
 
     # Test Astra Monitor settings
     local memory_percentage
-    memory_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/memory-header-percentage)
+    memory_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/memory-header-percentage 2>/dev/null) || memory_percentage=""
     local cpu_frequency
-    cpu_frequency=$(dconf read /org/gnome/shell/extensions/astra-monitor/processor-header-frequency)
+    cpu_frequency=$(dconf read /org/gnome/shell/extensions/astra-monitor/processor-header-frequency 2>/dev/null) || cpu_frequency=""
     local cpu_percentage
-    cpu_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/processor-header-percentage)
+    cpu_percentage=$(dconf read /org/gnome/shell/extensions/astra-monitor/processor-header-percentage 2>/dev/null) || cpu_percentage=""
 
     if [ "$memory_percentage" = "true" ]; then
         success "✓ Astra Monitor: メモリパーセンテージ表示が有効"
@@ -99,9 +102,9 @@ test_extension_settings() {
 
     # Test Search Light settings
     local scale_width
-    scale_width=$(dconf read /org/gnome/shell/extensions/search-light/scale-width)
+    scale_width=$(dconf read /org/gnome/shell/extensions/search-light/scale-width 2>/dev/null) || scale_width=""
     local scale_height
-    scale_height=$(dconf read /org/gnome/shell/extensions/search-light/scale-height)
+    scale_height=$(dconf read /org/gnome/shell/extensions/search-light/scale-height 2>/dev/null) || scale_height=""
     local expected_scale="0.1"
 
     if float_equals "$scale_width" "$expected_scale"; then
@@ -120,9 +123,9 @@ test_extension_settings() {
 
     # Test Bluetooth settings
     local auto_power
-    auto_power=$(dconf read /org/gnome/shell/extensions/bluetooth-quick-connect/bluetooth-auto-power-on)
+    auto_power=$(dconf read /org/gnome/shell/extensions/bluetooth-quick-connect/bluetooth-auto-power-on 2>/dev/null) || auto_power=""
     local show_battery
-    show_battery=$(dconf read /org/gnome/shell/extensions/bluetooth-battery-indicator/show-battery-value-on)
+    show_battery=$(dconf read /org/gnome/shell/extensions/bluetooth-battery-indicator/show-battery-value-on 2>/dev/null) || show_battery=""
 
     if [ "$auto_power" = "true" ]; then
         success "✓ Bluetooth Quick Connect: 自動電源オンが有効"
@@ -162,9 +165,19 @@ test_settings_backup_restore() {
 
     log "設定ファイルのサイズを確認中..."
     local backup_size
-    backup_size=$(wc -l < "$backup_dir/extensions-backup.dconf")
+    if [ -f "$backup_dir/extensions-backup.dconf" ]; then
+        backup_size=$(wc -l < "$backup_dir/extensions-backup.dconf")
+    else
+        warning "バックアップファイルが見つかりません: $backup_dir/extensions-backup.dconf"
+        backup_size=0
+    fi
     local original_size
-    original_size=$(wc -l < "$SCRIPT_DIR/extensions-settings.dconf")
+    if [ -f "$SCRIPT_DIR/extensions-settings.dconf" ]; then
+        original_size=$(wc -l < "$SCRIPT_DIR/extensions-settings.dconf")
+    else
+        warning "オリジナルファイルが見つかりません: $SCRIPT_DIR/extensions-settings.dconf"
+        original_size="N/A"
+    fi
 
     echo "  - バックアップファイル: $backup_size 行"
     echo "  - オリジナルファイル: $original_size 行"

@@ -297,7 +297,8 @@ EOF
 restart_gnome_shell() {
     log_info "🔄 GNOME Shellを再起動中..."
     
-    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    local session_type="${XDG_SESSION_TYPE:-x11}"
+    if [ "$session_type" = "wayland" ]; then
         log_warning "Wayland環境ではGNOME Shellの再起動ができません"
         log_info "ログアウト・ログインして設定を反映してください"
     else

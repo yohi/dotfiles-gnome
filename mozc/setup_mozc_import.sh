@@ -96,7 +96,7 @@ fi
 
 # Mozc設定の更新
 print_status "Mozc設定ファイルを更新中..."
-CONFIG_DIR="$(dirname "$(dirname "$(readlink -f "$DB_FILE")")")"
+CONFIG_DIR="$(dirname "$(readlink -f "$DB_FILE")")"
 mkdir -p "$CONFIG_DIR"
 
 if [ ! -f "$CONFIG_DIR/config1.db" ]; then
