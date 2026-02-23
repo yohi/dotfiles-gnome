@@ -45,7 +45,7 @@ refresh-button-on=true
 show-battery-value-on=true
 
 [bluetooth_battery_indicator]
-devices=['{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}', '{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}']
+devices=['{"name":"DEVICE_PLACEHOLDER","mac":"MAC_PLACEHOLDER"}']
 hide-indicator=true
 
 [clipboard-indicator]
@@ -385,7 +385,7 @@ toggle-tiling-popup=@as []
 applications=['org.gnome.tweaks.desktop', 'com.mattjakeman.ExtensionManager.desktop']
 
 [user-theme]
-name='GSCONNECT_NAME_PLACEHOLDER'
+name='Yaru'
 
 [vertical-workspaces]
 ws-thumbnails-full=false
