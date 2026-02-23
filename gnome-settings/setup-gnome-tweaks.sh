@@ -234,21 +234,30 @@ restore_from_backup() {
     log_info "📥 設定を復元中: $backup_dir"
     
     if [ -f "$backup_dir/desktop.dconf" ]; then
-        dconf load /org/gnome/desktop/ < "$backup_dir/desktop.dconf"
-        log_success "デスクトップ設定を復元しました"
+        if dconf load /org/gnome/desktop/ < "$backup_dir/desktop.dconf" 2>/dev/null; then
+            log_success "デスクトップ設定を復元しました"
+        else
+            log_error "デスクトップ設定の復元に失敗しました"
+        fi
     fi
     
     if [ -f "$backup_dir/shell.dconf" ]; then
-        dconf load /org/gnome/shell/ < "$backup_dir/shell.dconf"
-        log_success "シェル設定を復元しました"
+        if dconf load /org/gnome/shell/ < "$backup_dir/shell.dconf" 2>/dev/null; then
+            log_success "シェル設定を復元しました"
+        else
+            log_error "シェル設定の復元に失敗しました"
+        fi
     fi
     
     if [ -f "$backup_dir/mutter.dconf" ]; then
-        dconf load /org/gnome/mutter/ < "$backup_dir/mutter.dconf"
-        log_success "Mutter設定を復元しました"
+        if dconf load /org/gnome/mutter/ < "$backup_dir/mutter.dconf" 2>/dev/null; then
+            log_success "Mutter設定を復元しました"
+        else
+            log_error "Mutter設定の復元に失敗しました"
+        fi
     fi
     
-    log_success "🎉 設定の復元が完了しました！"
+    log_success "🎉 設定の復元処理が完了しました"
 }
 
 # 現在の設定をエクスポートする関数
