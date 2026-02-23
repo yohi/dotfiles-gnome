@@ -272,9 +272,9 @@ export_current_settings() {
     mkdir -p "$export_dir"
     
     # 設定をエクスポート
-    dconf dump /org/gnome/desktop/ > "$export_dir/desktop.dconf"
-    dconf dump /org/gnome/shell/ > "$export_dir/shell.dconf"
-    dconf dump /org/gnome/mutter/ > "$export_dir/mutter.dconf"
+    dconf dump /org/gnome/desktop/ > "$export_dir/desktop.dconf" 2>/dev/null || true
+    dconf dump /org/gnome/shell/ > "$export_dir/shell.dconf" 2>/dev/null || true
+    dconf dump /org/gnome/mutter/ > "$export_dir/mutter.dconf" 2>/dev/null || true
     
     # 説明ファイルを作成
     cat > "$export_dir/README.md" << EOF
