@@ -1,4 +1,5 @@
 # Mozc関連のターゲット
+HOME_DIR ?= $(HOME)
 
 # Mozc辞書の設定変数
 MOZC_DICT_VERSION := 20240330
@@ -189,13 +190,16 @@ setup-mozc-ut-dictionaries:
 	if [ -f "$(MOZC_DICT_FILENAME)" ]; then \
 		ACTUAL_CHECKSUM=$$(sha256sum $(MOZC_DICT_FILENAME) | cut -d' ' -f1); \
 		if [ -z "$(MOZC_DICT_CHECKSUM)" ] || echo "$(MOZC_DICT_CHECKSUM)" | grep -q "^0\+$$"; then \
-			echo "⚠️  警告: チェックサム検証をスキップします（未設定またはプレースホルダー）"; \
-			echo "実際値: $$ACTUAL_CHECKSUM"; \
+			echo "❌ エラー: MOZC_DICT_CHECKSUM が未設定またはプレースホルダーです"; \
+			echo "実際値 (ACTUAL_CHECKSUM): $$ACTUAL_CHECKSUM"; \
+			echo "make get-mozc-dict-checksum を実行して正しい値を設定してください"; \
+			rm -f $(MOZC_DICT_FILENAME); \
+			exit 1; \
 		elif [ "$$ACTUAL_CHECKSUM" != "$(MOZC_DICT_CHECKSUM)" ]; then \
 			echo "❌ エラー: チェックサムが一致しません"; \
-			echo "期待値: $(MOZC_DICT_CHECKSUM)"; \
-			echo "実際値: $$ACTUAL_CHECKSUM"; \
-			echo "ファイルが破損している可能性があります。"; \
+			echo "期待値 (MOZC_DICT_CHECKSUM): $(MOZC_DICT_CHECKSUM)"; \
+			echo "実際値 (ACTUAL_CHECKSUM): $$ACTUAL_CHECKSUM"; \
+			echo "ファイル $(MOZC_DICT_FILENAME) が破損している可能性があります。"; \
 			rm -f $(MOZC_DICT_FILENAME); \
 			exit 1; \
 		else \

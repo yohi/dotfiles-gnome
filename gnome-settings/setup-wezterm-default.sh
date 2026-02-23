@@ -4,7 +4,7 @@
 # Author: y_ohi
 # Description: NautilusでWeztermをデフォルト端末として使用するための設定スクリプト
 
-set -e
+set -euo pipefail
 
 # 色の定義
 RED='\033[0;31m'

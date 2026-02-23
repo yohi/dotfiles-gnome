@@ -42,8 +42,15 @@ check_dependencies() {
         done
         echo ""
         log "必要なパッケージをインストール中..."
-        sudo apt update
-        sudo apt install -y libglib2.0-dev-bin libglib2.0-dev libxml2-utils
+        if ! sudo apt update; then
+            error "sudo apt update に失敗しました。ネットワーク接続と権限を確認してください。"
+            exit 1
+        fi
+        if ! sudo apt install -y libglib2.0-dev-bin libglib2.0-dev libxml2-utils; then
+            error "パッケージのインストールに失敗しました。手動で以下を実行してください:"
+            echo "sudo apt install -y libglib2.0-dev-bin libglib2.0-dev libxml2-utils"
+            exit 1
+        fi
         success "必要なパッケージのインストール完了"
     fi
 }
@@ -125,7 +132,11 @@ compile_all_schemas() {
     # 各拡張機能のディレクトリを確認
     for extension_dir in "$EXTENSIONS_DIR"/*; do
         if [ -d "$extension_dir" ]; then
-            local extension_uuid=$(basename "$extension_dir")
+            local extension_uuid
+            if ! extension_uuid=$(basename "$extension_dir"); then
+                error "$extension_dir の UUID 取得に失敗しました"
+                continue
+            fi
             total_count=$((total_count + 1))
 
             if compile_extension_schema "$extension_uuid"; then
@@ -160,7 +171,8 @@ refresh_extensions() {
     fi
 
     # 現在有効な拡張機能のリストを取得
-    local enabled_extensions=$(gnome-extensions list --enabled 2>/dev/null || echo "")
+    local enabled_extensions
+    enabled_extensions=$(gnome-extensions list --enabled 2>/dev/null || echo "")
 
     if [ -z "$enabled_extensions" ]; then
         warning "有効な拡張機能が見つかりません"

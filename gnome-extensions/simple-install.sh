@@ -70,8 +70,11 @@ install_extension() {
     local gnome_version=$(gnome-shell --version 2>/dev/null | cut -d' ' -f3 | cut -d'.' -f1,2 || echo "48")
     local api_url="https://extensions.gnome.org/extension-info/?uuid=${extension_uuid}&shell_version=${gnome_version}"
 
-    local temp_dir="/tmp/ext_install_$$"
-    mkdir -p "$temp_dir"
+    local temp_dir
+    if ! temp_dir=$(mktemp -d); then
+        error "一時ディレクトリの作成に失敗しました"
+        return 1
+    fi
 
     # APIからメタデータを取得
     if ! curl -s "$api_url" -o "$temp_dir/metadata.json" 2>/dev/null; then

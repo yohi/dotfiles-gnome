@@ -127,7 +127,9 @@ def main():
     print(f'📍 データベースファイル: {database_file}')
 
     # データベースディレクトリの作成
-    os.makedirs(os.path.dirname(database_file), exist_ok=True)
+    db_dir = os.path.dirname(database_file)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
 
     # 既存のデータベースをバックアップ
     if os.path.exists(database_file):

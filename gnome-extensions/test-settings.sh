@@ -3,6 +3,9 @@
 # Settings Application Test Script
 set -euo pipefail
 
+# Get the script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -147,7 +150,7 @@ test_settings_backup_restore() {
 
     log "設定ファイルのサイズを確認中..."
     local backup_size=$(wc -l < "$backup_dir/extensions-backup.dconf")
-    local original_size=$(wc -l < "$(dirname "$0")/extensions-settings.dconf")
+    local original_size=$(wc -l < "$SCRIPT_DIR/extensions-settings.dconf")
 
     echo "  - バックアップファイル: $backup_size 行"
     echo "  - オリジナルファイル: $original_size 行"
@@ -172,7 +175,7 @@ test_settings_application() {
     log "保存された設定ファイルから設定を再適用中..."
 
     # Apply settings using the script
-    if ./install-extensions.sh apply-settings >/dev/null 2>&1; then
+    if "$SCRIPT_DIR/install-extensions.sh" apply-settings >/dev/null 2>&1; then
         success "✓ 設定の再適用が成功しました"
     else
         error "✗ 設定の再適用に失敗しました"

@@ -15,12 +15,12 @@ if [ "${XDG_SESSION_TYPE:-}" = "x11" ] || [ -n "${DISPLAY:-}" ]; then
     setxkbmap -option '' 2>/dev/null || true
 fi
 
-# 5. GNOME Settings Daemonのキーボードサービスにリセット信号を送信
+# 4. GNOME Settings Daemonのキーボードサービスにリセット信号を送信
 gdbus call --session --dest org.gnome.SettingsDaemon.Keyboard \
     --object-path /org/gnome/SettingsDaemon/Keyboard \
     --method org.gnome.SettingsDaemon.Keyboard.Reset 2>/dev/null || true
 
-# 6. 現在の状態を確認
+# 5. 現在の状態を確認
 current_state=$(gsettings get org.gnome.desktop.a11y.keyboard stickykeys-enable)
 echo "Sticky Keys状態: $current_state"
 

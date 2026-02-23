@@ -1,4 +1,5 @@
 # 拡張機能関連のターゲット
+HOME_DIR ?= $(HOME)
 
 # 拡張機能の依存関係をインストール
 _install-extensions-dependencies:
@@ -42,7 +43,7 @@ install-extensions-v2:
 				echo "⏭️  $$ext は既にインストール済みです"; \
 			else \
 				echo "🔄 $$ext のインストールを試行中..."; \
-				gnome-extensions install "$$ext" || echo "⚠️  $$ext のインストールに失敗しました"; \
+				gdbus call --session --dest org.gnome.Shell.Extensions --object-path /org/gnome/Shell/Extensions --method org.gnome.Shell.Extensions.installRemoteExtension "$$ext" || echo "⚠️  $$ext のインストールに失敗しました"; \
 			fi; \
 		else \
 			echo "⚠️  gnome-extensionsコマンドが見つかりません"; \
@@ -68,7 +69,7 @@ install-extensions-simple:
 				echo "⏭️  $$ext は既にインストール済みです"; \
 			else \
 				echo "🔄 $$ext のインストールを試行中..."; \
-				gnome-extensions install "$$ext" || echo "⚠️  $$ext のインストールに失敗しました"; \
+				gdbus call --session --dest org.gnome.Shell.Extensions --object-path /org/gnome/Shell/Extensions --method org.gnome.Shell.Extensions.installRemoteExtension "$$ext" || echo "⚠️  $$ext のインストールに失敗しました"; \
 			fi; \
 		else \
 			echo "⚠️  gnome-extensionsコマンドが見つかりません"; \

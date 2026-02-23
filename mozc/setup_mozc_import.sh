@@ -33,6 +33,9 @@ DB_FILE="$2"
 REPO_ROOT="$3"
 LOG_FILE="${DB_FILE}.import.log"
 
+# ログディレクトリの作成
+mkdir -p "$(dirname "$LOG_FILE")"
+
 # ログファイルの初期化
 exec 1> >(tee -a "$LOG_FILE")
 exec 2> >(tee -a "$LOG_FILE" >&2)
@@ -70,6 +73,9 @@ if [ ! -f "$PYTHON_SCRIPT" ]; then
     print_error "インポートスクリプトが見つかりません: $PYTHON_SCRIPT"
     exit 1
 fi
+
+# 既存のフラグファイルを削除
+rm -f "${DB_FILE}.success" "${DB_FILE}.failed"
 
 # 自動インポート実行
 print_status "専用Pythonスクリプトを使用してインポート中..."

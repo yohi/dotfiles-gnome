@@ -44,11 +44,12 @@ check_environment() {
         exit 1
     fi
     
-    local gnome_version=$(gnome-shell --version | cut -d' ' -f3)
+    local gnome_version
+    gnome_version=$(gnome-shell --version | cut -d' ' -f3)
     success "GNOME Shell バージョン: $gnome_version"
     
     # セッションタイプの確認
-    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    if [ "${XDG_SESSION_TYPE:-}" = "wayland" ]; then
         warning "Waylandセッションを検出しました。一部の機能に制限がある場合があります"
     fi
     
@@ -95,12 +96,30 @@ install_dependencies() {
     fi
     
     # gnome-shell-extension-installer のインストール
+    local installer_bin="$HOME/.local/bin/gnome-shell-extension-installer"
+    local installer_url="https://raw.githubusercontent.com/brunelli/gnome-shell-extension-installer/43579037667958564a273e933610996841755171/gnome-shell-extension-installer"
+    local installer_sha256="d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
+
     if ! command -v gnome-shell-extension-installer >/dev/null 2>&1; then
         log "gnome-shell-extension-installer をインストール中..."
-        sudo wget -O /usr/local/bin/gnome-shell-extension-installer \
-            "https://raw.githubusercontent.com/brunelli/gnome-shell-extension-installer/master/gnome-shell-extension-installer"
-        sudo chmod +x /usr/local/bin/gnome-shell-extension-installer
-        success "gnome-shell-extension-installer のインストール完了"
+        mkdir -p "$(dirname "$installer_bin")"
+        local temp_installer
+        temp_installer=$(mktemp)
+        if wget -O "$temp_installer" "$installer_url"; then
+            if echo "$installer_sha256  $temp_installer" | sha256sum -c - >/dev/null 2>&1; then
+                mv "$temp_installer" "$installer_bin"
+                chmod +x "$installer_bin"
+                success "gnome-shell-extension-installer のインストール完了"
+            else
+                error "gnome-shell-extension-installer のチェックサム検証に失敗しました"
+                rm -f "$temp_installer"
+                return 1
+            fi
+        else
+            error "gnome-shell-extension-installer のダウンロードに失敗しました"
+            rm -f "$temp_installer"
+            return 1
+        fi
     else
         success "gnome-shell-extension-installer は既にインストールされています"
     fi
@@ -130,7 +149,8 @@ main() {
     echo ""
     
     # メインのインストールスクリプトを実行
-    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     
     if [ -f "$script_dir/install-extensions.sh" ]; then
         title "🔧 拡張機能のインストールと設定を実行中..."

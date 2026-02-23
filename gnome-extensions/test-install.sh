@@ -78,21 +78,32 @@ install_extension_manually() {
 
     log "$extension_name ($extension_uuid) を手動インストール中..."
 
-    local temp_dir=$(mktemp -d)
-    local gnome_version=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1,2)
+    local temp_dir
+    if ! temp_dir=$(mktemp -d); then
+        error "一時ディレクトリの作成に失敗しました"
+        return 1
+    fi
+    trap 'rm -rf "$temp_dir"' RETURN
+
+    local gnome_version
+    gnome_version=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1,2)
 
     # Get extension info from API
     local api_url="https://extensions.gnome.org/extension-info/?uuid=${extension_uuid}&shell_version=${gnome_version}"
 
     if curl -s "$api_url" | grep -q "download_url"; then
-        local download_url=$(curl -s "$api_url" | python3 -c "
+        local download_url
+        if ! download_url=$(curl -s "$api_url" | python3 -c "
 import json, sys
 try:
     data = json.load(sys.stdin)
     print(data['download_url'])
-except:
+except Exception:
     sys.exit(1)
-")
+"); then
+            error "$extension_name のメタデータ解析に失敗しました"
+            return 1
+        fi
 
         if [ -n "$download_url" ]; then
             log "$extension_name のダウンロード中..."
@@ -104,7 +115,6 @@ except:
                     success "$extension_name のインストールが完了しました"
                     # Compile schemas
                     compile_extension_schemas "$extension_uuid"
-                    rm -rf "$temp_dir"
                     return 0
                 else
                     error "$extension_name の解凍に失敗しました"
@@ -115,7 +125,6 @@ except:
         fi
     fi
 
-    rm -rf "$temp_dir"
     warning "$extension_name のインストールに失敗しました"
     return 1
 }

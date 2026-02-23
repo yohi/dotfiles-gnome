@@ -60,11 +60,12 @@ check_environment() {
         exit 1
     fi
 
-    local gnome_version=$(gnome-shell --version | cut -d' ' -f3)
+    local gnome_version
+    gnome_version=$(gnome-shell --version | cut -d' ' -f3)
     success "GNOME Shell バージョン: $gnome_version"
 
     # セッションタイプの確認
-    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    if [ "${XDG_SESSION_TYPE:-}" = "wayland" ]; then
         warning "Waylandセッションを検出しました。一部の機能に制限がある場合があります"
     fi
 
@@ -84,11 +85,13 @@ check_environment() {
 # GNOME Shell拡張機能のメタデータを取得
 get_extension_metadata() {
     local extension_uuid="$1"
-    local gnome_version=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1,2)
+    local gnome_version
+    gnome_version=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1,2)
     local api_url="https://extensions.gnome.org/extension-info/?uuid=${extension_uuid}&shell_version=${gnome_version}"
 
     # APIから拡張機能情報を取得
-    local metadata=$(curl -s "$api_url" 2>/dev/null)
+    local metadata
+    metadata=$(curl -s "$api_url" 2>/dev/null)
 
     if echo "$metadata" | jq -e . >/dev/null 2>&1; then
         echo "$metadata"
@@ -249,7 +252,8 @@ main() {
         exit 1
     fi
 
-    local total_count=$(echo "$extensions_list" | wc -l)
+    local total_count
+    total_count=$(echo "$extensions_list" | wc -l)
     success "$total_count 個の拡張機能が見つかりました"
     echo ""
 
@@ -261,13 +265,14 @@ main() {
     while IFS= read -r extension_uuid; do
         [ -z "$extension_uuid" ] && continue
 
-        ((current++))
-        local extension_name=$(get_extension_name "$extension_uuid")
+        current=$((current + 1))
+        local extension_name
+        extension_name=$(get_extension_name "$extension_uuid")
 
         progress "[$current/$total_count] $extension_name ($extension_uuid)"
 
         if install_extension "$extension_uuid" "$extension_name"; then
-            ((success_count++))
+            success_count=$((success_count + 1))
         fi
 
         # サーバーへの負荷を軽減するため少し待機
@@ -282,13 +287,14 @@ main() {
     while IFS= read -r extension_uuid; do
         [ -z "$extension_uuid" ] && continue
 
-        ((current++))
-        local extension_name=$(get_extension_name "$extension_uuid")
+        current=$((current + 1))
+        local extension_name
+        extension_name=$(get_extension_name "$extension_uuid")
 
         progress "[$current/$total_count] $extension_name を有効化中..."
 
         if enable_extension "$extension_uuid" "$extension_name"; then
-            ((enabled_count++))
+            enabled_count=$((enabled_count + 1))
         fi
     done <<< "$extensions_list"
 

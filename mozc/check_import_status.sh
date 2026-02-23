@@ -35,7 +35,18 @@ print_info() {
 }
 
 # 処理状況の確認
-if [ -f "$SUCCESS_FILE" ]; then
+if [ -f "$FAILED_FILE" ]; then
+    print_error "辞書インポートが失敗しました"
+
+    if [ -f "$LOG_FILE" ]; then
+        print_info "ログファイル: $LOG_FILE"
+        print_info "最後のエラーメッセージ:"
+        tail -10 "$LOG_FILE" | grep -E "❌|ERROR|エラー" | tail -3
+    fi
+
+    exit 1
+
+elif [ -f "$SUCCESS_FILE" ]; then
     print_success "辞書インポートが完了しています"
 
     if [ -f "$DB_FILE" ]; then
@@ -49,17 +60,6 @@ if [ -f "$SUCCESS_FILE" ]; then
     fi
 
     exit 0
-
-elif [ -f "$FAILED_FILE" ]; then
-    print_error "辞書インポートが失敗しました"
-
-    if [ -f "$LOG_FILE" ]; then
-        print_info "ログファイル: $LOG_FILE"
-        print_info "最後のエラーメッセージ:"
-        tail -10 "$LOG_FILE" | grep -E "❌|ERROR|エラー" | tail -3
-    fi
-
-    exit 1
 
 else
     # 実行中かどうかを確認

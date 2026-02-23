@@ -223,7 +223,8 @@ apply_keybindings() {
 
 # バックアップ作成関数
 create_backup() {
-    local backup_dir="$HOME/.config/gnome-settings-backup-$(date +%Y%m%d_%H%M%S)"
+    local backup_dir
+    backup_dir="$HOME/.config/gnome-settings-backup-$(date +%Y%m%d_%H%M%S)"
     log_info "💾 現在の設定をバックアップ中: $backup_dir"
     
     mkdir -p "$backup_dir"
@@ -267,7 +268,8 @@ restore_from_backup() {
 
 # 現在の設定をエクスポートする関数
 export_current_settings() {
-    local export_dir="gnome-settings-export-$(date +%Y%m%d_%H%M%S)"
+    local export_dir
+    export_dir="gnome-settings-export-$(date +%Y%m%d_%H%M%S)"
     
     log_info "📤 現在の設定をエクスポート中: $export_dir"
     
@@ -392,7 +394,7 @@ EOF
             echo "2. Alt+F2 を押して 'r' を入力（X11のみ）"
             echo "3. システム再起動"
             
-            read -p "GNOME Shellを今すぐ再起動しますか？ (y/N): " -n 1 -r
+            read -r -p "GNOME Shellを今すぐ再起動しますか？ (y/N): " -n 1
             echo
             if [[ $REPLY =~ ^[Yy]$ ]]; then
                 restart_gnome_shell

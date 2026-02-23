@@ -66,9 +66,6 @@ gsettings set org.gnome.desktop.a11y.keyboard stickykeys-two-key-off true
 gsettings set org.gnome.desktop.a11y.keyboard stickykeys-modifier-beep false
 gsettings set org.gnome.desktop.a11y always-show-universal-access-status false
 
-# dconf経由での確実な設定
-dconf write /org/gnome/desktop/a11y/keyboard/stickykeys-enable false
-
 echo ""
 echo "✅ SHIFTキー固定モード対策のインストールが完了しました！"
 echo ""

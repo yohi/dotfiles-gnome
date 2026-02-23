@@ -13,8 +13,7 @@ BLUE='\033[0;34m'
 PURPLE='\033[0;35m'
 NC='\033[0m'
 
-# スクリプトディレクトリ
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# 拡張機能ディレクトリ
 EXTENSIONS_DIR="$HOME/.local/share/gnome-shell/extensions"
 
 # ログ関数

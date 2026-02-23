@@ -442,9 +442,9 @@ main() {
     # Parse command line arguments
     case "${1:-install}" in
         "install")
+            install_dependencies
             check_dependencies
             check_gnome
-            install_dependencies
             install_extensions
             enable_extensions
             apply_settings
