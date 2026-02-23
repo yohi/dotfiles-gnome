@@ -98,7 +98,9 @@ apply_gnome_tweaks_settings() {
     # ローカルのホスト専用お気に入りアプリがあれば追加する仕組み（別スクリプト/設定で実行）
     if [ -f "$HOME/.config/dotfiles-gnome/local-favorite-apps.sh" ]; then
         log_info "ホスト専用のお気に入りアプリを追加中..."
-        bash "$HOME/.config/dotfiles-gnome/local-favorite-apps.sh"
+        if ! bash "$HOME/.config/dotfiles-gnome/local-favorite-apps.sh"; then
+            log_warning "ホスト専用のお気に入りアプリの追加に失敗しましたが、処理を継続します"
+        fi
     fi
     
     # ========================================
@@ -107,11 +109,11 @@ apply_gnome_tweaks_settings() {
     log_info "🧩 拡張機能設定を適用中..."
     
     # 有効な拡張機能
-    ENABLED_EXTENSIONS="['bluetooth-quick-connect@bjarosze.gmail.com', 'tweaks-system-menu@extensions.gnome-shell.fifi.org', 'bluetooth-battery@michalw.github.com', 'window-app-switcher-on-active-monitor@NiKnights.com', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'Move_Clock@rmy.pobox.com', 'BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm', 'PrivacyMenu@stuarthayhurst', 'vertical-workspaces@G-dH.github.com', 'search-light@icedman.github.com', 'monitor@astraext.github.io']"
+    ENABLED_EXTENSIONS="['bluetooth-quick-connect@bjarosze.gmail.com', 'tweaks-system-menu@extensions.gnome-shell.fifi.org', 'bluetooth-battery@michalw.github.com', 'window-app-switcher-on-active-monitor@NiKnights.com', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'Move_Clock@rmy.pobox.com', 'BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm', 'PrivacyMenu@stuarthayhurst', 'vertical-workspaces@G-dH.github.com', 'search-light@icedman.github.com', 'monitor@astraext.github.io', 'user-theme@gnome-shell-extensions.gcampax.github.com']"
     apply_dconf_setting "/org/gnome/shell/enabled-extensions" "$ENABLED_EXTENSIONS" "有効な拡張機能"
     
     # 無効な拡張機能
-    DISABLED_EXTENSIONS="['tiling-assistant@ubuntu.com', 'just-perfection-desktop@just-perfection', 'docker@stickman_0x00.com', 'dejaview@hedgie.tech', 'gtk4-ding@smedius.gitlab.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'clipboard-indicator@tudmotu.com', 'gsconnect@andyholmes.github.io', 'gse-haguichi-indicator@ztefn.github.com', 'custom-hot-corners-extended@G-dH.github.com', 'simulate-switching-workspaces-on-active-monitor@micheledaros.com', 'dash2dock-lite@icedman.github.com', 'system-monitor-next@paradoxxx.zero.gmail.com']"
+    DISABLED_EXTENSIONS="['tiling-assistant@ubuntu.com', 'just-perfection-desktop@just-perfection', 'docker@stickman_0x00.com', 'dejaview@hedgie.tech', 'gtk4-ding@smedius.gitlab.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'clipboard-indicator@tudmotu.com', 'gsconnect@andyholmes.github.io', 'gse-haguichi-indicator@ztefn.github.com', 'custom-hot-corners-extended@G-dH.github.com', 'simulate-switching-workspaces-on-active-monitor@micheledaros.com', 'dash2dock-lite@icedman.github.com', 'system-monitor-next@paradoxxx.zero.gmail.com']"
     apply_dconf_setting "/org/gnome/shell/disabled-extensions" "$DISABLED_EXTENSIONS" "無効な拡張機能"
     
     apply_dconf_setting "/org/gnome/shell/disable-user-extensions" "false" "ユーザー拡張機能を有効化"
