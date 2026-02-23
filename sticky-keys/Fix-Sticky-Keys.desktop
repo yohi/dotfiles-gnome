@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=SHIFTキー固定解除
+Name[en]=Fix Sticky Keys
+Comment=SHIFTキー固定モードを即座に解除
+Comment[en]=Instantly disable GNOME Sticky Keys
+Exec=HOME_DIR/.local/bin/fix-sticky-keys-instant.sh
+Icon=input-keyboard
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=Utility;
+Keywords=keyboard;sticky;shift;accessibility;GNOME;

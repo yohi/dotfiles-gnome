@@ -1,0 +1,13 @@
+bluetooth-battery@michalw.github.com
+bluetooth-quick-connect@bjarosze.gmail.com
+Move_Clock@rmy.pobox.com
+tweaks-system-menu@extensions.gnome-shell.fifi.org
+BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm
+PrivacyMenu@stuarthayhurst
+window-app-switcher-on-active-monitor@NiKnights.com
+ubuntu-appindicators@ubuntu.com
+ubuntu-dock@ubuntu.com
+ding@rastersoft.com
+vertical-workspaces@G-dH.github.com
+monitor@astraext.github.io
+search-light@icedman.github.com

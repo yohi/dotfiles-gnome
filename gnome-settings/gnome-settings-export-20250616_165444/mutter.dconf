@@ -1,0 +1,4 @@
+[/]
+dynamic-workspaces=true
+experimental-features=['x11-randr-fractional-scaling']
+workspaces-only-on-primary=true

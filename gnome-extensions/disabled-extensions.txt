@@ -1,0 +1,14 @@
+user-theme@gnome-shell-extensions.gcampax.github.com
+gsconnect@andyholmes.github.io
+simulate-switching-workspaces-on-active-monitor@micheledaros.com
+custom-hot-corners-extended@G-dH.github.com
+clipboard-indicator@tudmotu.com
+system-monitor-next@paradoxxx.zero.gmail.com
+dejaview@hedgie.tech
+docker@stickman_0x00.com
+gtk4-ding@smedius.gitlab.com
+just-perfection-desktop@just-perfection
+gse-haguichi-indicator@ztefn.github.com
+places-menu@gnome-shell-extensions.gcampax.github.com
+tiling-assistant@ubuntu.com
+dash2dock-lite@icedman.github.com

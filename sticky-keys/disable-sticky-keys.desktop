@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Disable Sticky Keys
+Name[ja]=Sticky Keys を無効化
+Comment=Ensure Sticky Keys remain disabled at login
+Comment[ja]=ログイン時に Sticky Keys を無効化した状態に維持します
+Exec=HOME_DIR/.local/bin/disable-sticky-keys.sh
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
+StartupNotify=false
+Hidden=false
+TryExec=HOME_DIR/.local/bin/disable-sticky-keys.sh
+OnlyShowIn=GNOME;
+X-GNOME-Autostart-Delay=5
