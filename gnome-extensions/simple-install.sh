@@ -47,7 +47,8 @@ check_environment() {
         return 1
     fi
 
-    local gnome_version=$(gnome-shell --version 2>/dev/null | cut -d' ' -f3 || echo "Unknown")
+    local gnome_version
+    gnome_version=$(gnome-shell --version 2>/dev/null | cut -d' ' -f3 || echo "Unknown")
     success "GNOME Shell バージョン: $gnome_version"
     success "環境チェック完了"
     return 0
@@ -67,7 +68,8 @@ install_extension() {
     fi
 
     # メタデータを取得
-    local gnome_version=$(gnome-shell --version 2>/dev/null | cut -d' ' -f3 | cut -d'.' -f1,2 || echo "48")
+    local gnome_version
+    gnome_version=$(gnome-shell --version 2>/dev/null | cut -d' ' -f3 | cut -d'.' -f1,2 || echo "48")
     local api_url="https://extensions.gnome.org/extension-info/?uuid=${extension_uuid}&shell_version=${gnome_version}"
 
     local temp_dir
@@ -195,7 +197,8 @@ main() {
         exit 1
     fi
 
-    local total_count=$(echo -n "$extensions_list" | grep -c '^')
+    local total_count
+    total_count=$(printf '%s' "$extensions_list" | wc -l)
     success "$total_count 個の拡張機能が見つかりました"
     echo ""
 

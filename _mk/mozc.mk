@@ -5,6 +5,7 @@ HOME_DIR ?= $(HOME)
 MOZC_DICT_VERSION := 20240330
 MOZC_DICT_FILENAME := mozcdic-ut-$(MOZC_DICT_VERSION).zip
 MOZC_DICT_URL := https://github.com/utuhiro78/mozcdic-ut/releases/download/$(MOZC_DICT_VERSION)/$(MOZC_DICT_FILENAME)
+# 辞書検証エラーを回避するため、必ず実際のSHA256チェックサムを設定するか、事前に `make get-mozc-dict-checksum` を実行して取得した値を設定してください。
 MOZC_DICT_CHECKSUM := 0000000000000000000000000000000000000000000000000000000000000000  # 実際のSHA256チェックサム。0または空の場合は検証をスキップします
 MOZC_DICT_TXT := mozcdic-ut-$(MOZC_DICT_VERSION).txt
 MOZC_CONFIG_DIR := $(HOME_DIR)/.config/mozc
@@ -292,7 +293,7 @@ get-mozc-dict-checksum:
 	@echo "2. チェックサムを取得:"
 	@echo "   sha256sum /tmp/$(MOZC_DICT_FILENAME)"
 	@echo ""
-	@echo "3. 取得したチェックサムを mk/mozc.mk の MOZC_DICT_CHECKSUM 変数に設定"
+	@echo "3. 取得したチェックサムを _mk/mozc.mk の MOZC_DICT_CHECKSUM 変数に設定"
 	@echo ""
 	@echo "⚠️  現在のチェックサム値はプレースホルダーです："
 	@echo "   $(MOZC_DICT_CHECKSUM)"

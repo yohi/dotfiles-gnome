@@ -49,14 +49,30 @@ install_extension() {
     fi
 
     # GNOME Shell バージョン取得
-    local gnome_ver=$(gnome-shell --version | grep -oP '\d+\.\d+')
+    local gnome_ver
+    gnome_ver=$(gnome-shell --version | grep -oP '\d+\.\d+')
+    if [ $? -ne 0 ]; then
+        error "gnome-shell バージョンの取得に失敗"
+        return 1
+    fi
 
     # API から拡張機能情報を取得
-    local api_url="https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$gnome_ver"
-    local metadata=$(curl -s "$api_url")
+    local api_url
+    api_url="https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$gnome_ver"
+    local metadata
+    metadata=$(curl -s "$api_url")
+    if [ $? -ne 0 ]; then
+        error "メタデータの取得に失敗"
+        return 1
+    fi
 
     # ダウンロードURL取得
-    local download_url=$(echo "$metadata" | jq -r '.download_url // empty')
+    local download_url
+    download_url=$(echo "$metadata" | jq -r '.download_url // empty')
+    if [ $? -ne 0 ]; then
+        error "ダウンロードURLの取得に失敗"
+        return 1
+    fi
 
     if [ -z "$download_url" ] || [ "$download_url" = "null" ]; then
         # バージョン指定なしで再試行
@@ -71,7 +87,12 @@ install_extension() {
     fi
 
     # 一時ディレクトリ作成
-    local temp_dir=$(mktemp -d)
+    local temp_dir
+    temp_dir=$(mktemp -d)
+    if [ -z "$temp_dir" ] || [ ! -d "$temp_dir" ]; then
+        error "Failed to create temp dir" >&2
+        return 1
+    fi
     local zip_file="$temp_dir/extension.zip"
 
     # ダウンロード

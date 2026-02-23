@@ -4,7 +4,7 @@
 # Author: y_ohi
 # Description: Gnome Tweaksで設定可能な項目を自動的に復元するスクリプト
 
-set -e
+set -euo pipefail
 
 # 色の定義
 RED='\033[0;31m'
@@ -112,9 +112,15 @@ apply_gnome_tweaks_settings() {
     # ========================================
     log_info "🚀 お気に入りアプリケーション設定を適用中..."
     
-    # お気に入りアプリの設定
-    FAVORITE_APPS="['org.gnome.Nautilus.desktop', 'com.gexperts.Tilix.desktop', 'wezterm.desktop', 'cursor.desktop', 'code.desktop', 'devtoys.desktop', 'google-chrome.desktop', 'google-chrome-beta.desktop', 'chromium_chromium.desktop', 'slack.desktop', 'chrome-mdpkiolbdkhdjpekfbkbmhigcaggjagi-Default.desktop', 'synochat.desktop', 'discord.desktop', 'pgadmin4.desktop', 'mysql-workbench.desktop', 'tableplus.desktop', 'beekeeper-studio.desktop', 'dbgate.desktop', 'dbeaver-ce_dbeaver-ce.desktop', 'Postman.desktop', 'wps-office-prometheus.desktop', 'com.mattjakeman.ExtensionManager.desktop', 'org.gnome.Meld.desktop', 'filezilla.desktop', 'Zoom.desktop', 'com.bitwarden.desktop.desktop', 'wine-Programs-Amazon-Amazon Kindle-Kindle.desktop', 'claude-desktop.desktop']"
+    # お気に入りアプリの設定 (共有ベースライン)
+    FAVORITE_APPS="['org.gnome.Nautilus.desktop', 'com.gexperts.Tilix.desktop', 'wezterm.desktop', 'cursor.desktop', 'code.desktop', 'devtoys.desktop', 'google-chrome.desktop', 'google-chrome-beta.desktop', 'slack.desktop', 'synochat.desktop', 'discord.desktop', 'pgadmin4.desktop', 'mysql-workbench.desktop', 'tableplus.desktop', 'beekeeper-studio.desktop', 'dbgate.desktop', 'dbeaver-ce_dbeaver-ce.desktop', 'Postman.desktop', 'wps-office-prometheus.desktop', 'com.mattjakeman.ExtensionManager.desktop', 'org.gnome.Meld.desktop', 'filezilla.desktop', 'Zoom.desktop', 'com.bitwarden.desktop.desktop', 'claude-desktop.desktop']"
     apply_dconf_setting "/org/gnome/shell/favorite-apps" "$FAVORITE_APPS" "お気に入りアプリケーション"
+    
+    # ローカルのホスト専用お気に入りアプリがあれば追加する仕組み（別スクリプト/設定で実行）
+    if [ -f "$HOME/.config/dotfiles-gnome/local-favorite-apps.sh" ]; then
+        log_info "ホスト専用のお気に入りアプリを追加中..."
+        bash "$HOME/.config/dotfiles-gnome/local-favorite-apps.sh"
+    fi
     
     # ========================================
     # 拡張機能設定 (Extensions)

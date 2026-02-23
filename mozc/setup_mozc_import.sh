@@ -108,7 +108,8 @@ fi
 print_status "ユーザー辞書パスを設定中..."
 if command -v sqlite3 >/dev/null 2>&1; then
     sqlite3 "$CONFIG_DIR/config1.db" "CREATE TABLE IF NOT EXISTS config (name TEXT PRIMARY KEY, value TEXT);" 2>/dev/null || true
-    sqlite3 "$CONFIG_DIR/config1.db" "INSERT OR REPLACE INTO config (name, value) VALUES ('user_dictionary_file', '$DB_FILE');" 2>/dev/null || true
+    escaped_db_file="${DB_FILE//\'/\'\'}"
+    sqlite3 "$CONFIG_DIR/config1.db" "INSERT OR REPLACE INTO config (name, value) VALUES ('user_dictionary_file', '$escaped_db_file');" 2>/dev/null || true
     print_success "設定データベースが更新されました"
 fi
 

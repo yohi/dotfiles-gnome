@@ -66,6 +66,9 @@ compile_extension_schemas() {
                 warning "$extension_uuid のスキーマコンパイルに失敗しました"
                 return 1
             fi
+        else
+            warning "$extension_uuid: no .gschema.xml files found"
+            return 1
         fi
     fi
     return 0
@@ -151,9 +154,7 @@ for extension_info in "${test_extensions[@]}"; do
         success "$extension_name は既にインストールされています"
     else
         # Install the extension
-        if install_extension_manually "$extension_uuid" "$extension_name"; then
-            success "$extension_name のインストールが完了しました"
-        else
+        if ! install_extension_manually "$extension_uuid" "$extension_name"; then
             error "$extension_name のインストールに失敗しました"
         fi
     fi

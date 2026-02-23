@@ -134,7 +134,9 @@ set_wezterm_as_default() {
 
     # update-alternativesでシステムレベルのデフォルト端末も設定
     local wezterm_path
-    wezterm_path=$(command -v wezterm)
+    if ! wezterm_path=$(command -v wezterm); then
+        wezterm_path=""
+    fi
 
     if [ -n "$wezterm_path" ]; then
         log_info "🔧 update-alternativesでシステムレベルのデフォルト端末を設定中..."
@@ -197,11 +199,30 @@ check_nautilus_terminal_plugin() {
     log_info "📁 Nautilusの端末プラグインを確認中..."
 
     # nautilus-open-terminalパッケージの確認
-    if dpkg -l | grep -q nautilus-open-terminal 2>/dev/null; then
+    local has_nautilus_open_terminal=false
+    if command -v dpkg >/dev/null 2>&1; then
+        if dpkg-query -W -f='${Status}' nautilus-open-terminal 2>/dev/null | grep -q "install ok installed"; then
+            has_nautilus_open_terminal=true
+        fi
+    elif command -v rpm >/dev/null 2>&1; then
+        if rpm -q nautilus-open-terminal >/dev/null 2>&1; then
+            has_nautilus_open_terminal=true
+        fi
+    elif command -v pacman >/dev/null 2>&1; then
+        if pacman -Qs nautilus-open-terminal >/dev/null 2>&1; then
+            has_nautilus_open_terminal=true
+        fi
+    else
+        if command -v nautilus-open-terminal >/dev/null 2>&1; then
+            has_nautilus_open_terminal=true
+        fi
+    fi
+
+    if [ "$has_nautilus_open_terminal" = true ]; then
         log_success "nautilus-open-terminalパッケージがインストールされています"
     else
         log_warning "nautilus-open-terminalパッケージがインストールされていません"
-        log_info "インストールを推奨します: sudo apt install nautilus-open-terminal"
+        log_info "インストールを推奨します: 各ディストリビューションのパッケージマネージャでインストールしてください（例: sudo apt install nautilus-open-terminal）"
     fi
 
     # Nautilusの再起動を促す

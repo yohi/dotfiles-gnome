@@ -9,6 +9,7 @@ import os
 import sqlite3
 import time
 import signal
+import shutil
 from pathlib import Path
 
 
@@ -105,10 +106,16 @@ def import_dictionary_entries(conn, dictionary_file):
         print(f'✅ {count:,} エントリがインポートされました')
         return count
 
-    except Exception as e:
+    except (OSError, ValueError, sqlite3.Error) as e:
         print(f'❌ エラー: {e}')
         conn.rollback()
         return 0
+    except Exception as e:
+        import traceback
+        print(f'❌ 予期せぬエラー: {e}')
+        traceback.print_exc()
+        conn.rollback()
+        raise
 
 
 def main():
@@ -135,10 +142,9 @@ def main():
     if os.path.exists(database_file):
         backup_file = f'{database_file}.bak'
         try:
-            import shutil
             shutil.copy2(database_file, backup_file)
             print(f'💾 既存データベースをバックアップ: {backup_file}')
-        except Exception as e:
+        except OSError as e:
             print(f'⚠️  バックアップに失敗: {e}')
 
     try:

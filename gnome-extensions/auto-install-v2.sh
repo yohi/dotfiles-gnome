@@ -17,7 +17,7 @@ NC='\033[0m' # No Color
 # スクリプトディレクトリ
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 EXTENSIONS_DIR="$HOME/.local/share/gnome-shell/extensions"
-TEMP_DIR=$(mktemp -d)
+TEMP_DIR="$(mktemp -d)" || { echo "Failed to create temp dir" >&2; exit 1; }
 
 # ログ関数
 log() {
@@ -61,7 +61,10 @@ check_environment() {
     fi
 
     local gnome_version
-    gnome_version=$(gnome-shell --version | cut -d' ' -f3)
+    gnome_version=$(gnome-shell --version | cut -d' ' -f3) || {
+        error "gnome-shell バージョンの取得に失敗しました"
+        exit 1
+    }
     success "GNOME Shell バージョン: $gnome_version"
 
     # セッションタイプの確認
@@ -86,12 +89,18 @@ check_environment() {
 get_extension_metadata() {
     local extension_uuid="$1"
     local gnome_version
-    gnome_version=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1,2)
+    gnome_version=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1,2) || {
+        error "gnome-shell バージョンの取得に失敗しました"
+        return 1
+    }
     local api_url="https://extensions.gnome.org/extension-info/?uuid=${extension_uuid}&shell_version=${gnome_version}"
 
     # APIから拡張機能情報を取得
     local metadata
-    metadata=$(curl -s "$api_url" 2>/dev/null)
+    metadata=$(curl -s "$api_url" 2>/dev/null) || {
+        error "メタデータの取得に失敗しました"
+        return 1
+    }
 
     if echo "$metadata" | jq -e . >/dev/null 2>&1; then
         echo "$metadata"

@@ -46,9 +46,13 @@ float_equals() {
 
     # Simple absolute difference check using shell arithmetic
     # Convert to integer by multiplying by 10000 for precision
-    local int_val1=$(printf "%.0f" "$(echo "$val1 * 10000" | bc -l 2>/dev/null || echo "0")")
-    local int_val2=$(printf "%.0f" "$(echo "$val2 * 10000" | bc -l 2>/dev/null || echo "0")")
-    local int_epsilon=$(printf "%.0f" "$(echo "$epsilon * 10000" | bc -l 2>/dev/null || echo "1")")
+    local int_val1 int_val2 int_epsilon
+    int_val1=$(echo "$val1 * 10000" | bc -l 2>/dev/null)
+    if [ $? -ne 0 ] || [ -z "$int_val1" ]; then int_val1=0; else int_val1=$(printf "%.0f" "$int_val1"); fi
+    int_val2=$(echo "$val2 * 10000" | bc -l 2>/dev/null)
+    if [ $? -ne 0 ] || [ -z "$int_val2" ]; then int_val2=0; else int_val2=$(printf "%.0f" "$int_val2"); fi
+    int_epsilon=$(echo "$epsilon * 10000" | bc -l 2>/dev/null)
+    if [ $? -ne 0 ] || [ -z "$int_epsilon" ]; then int_epsilon=1; else int_epsilon=$(printf "%.0f" "$int_epsilon"); fi
 
     # Calculate absolute difference using shell arithmetic
     local diff=$((int_val1 - int_val2))
@@ -111,7 +115,7 @@ test_extension_settings() {
 
     # Test Bluetooth settings
     local auto_power=$(dconf read /org/gnome/shell/extensions/bluetooth-quick-connect/bluetooth-auto-power-on)
-    local show_battery=$(dconf read /org/gnome/shell/extensions/bluetooth_battery_indicator/show-battery-value-on)
+    local show_battery=$(dconf read /org/gnome/shell/extensions/bluetooth-battery-indicator/show-battery-value-on)
 
     if [ "$auto_power" = "true" ]; then
         success "✓ Bluetooth Quick Connect: 自動電源オンが有効"

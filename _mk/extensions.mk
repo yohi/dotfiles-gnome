@@ -134,8 +134,9 @@ fix-extensions-schema:
 
 	# 拡張機能の再読み込み
 	@echo "🔄 拡張機能を再読み込み中..."
-	@if command -v gnome-extensions >/dev/null 2>&1; then \
-		gnome-extensions list --enabled | while read -r ext; do \
+	@set -o pipefail; \
+	if command -v gnome-extensions >/dev/null 2>&1; then \
+		gnome-extensions list --enabled | while IFS= read -r ext; do \
 			echo "🔄 $$ext を再読み込み中..."; \
 			gnome-extensions disable "$$ext" || true; \
 			sleep 1; \

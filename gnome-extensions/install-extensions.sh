@@ -41,7 +41,6 @@ NC='\033[0m' # No Color
 
 # Get the script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Log function
 log() {
@@ -152,8 +151,10 @@ install_extension_from_ego() {
     log "API経由で直接インストール中..."
 
     # Fallback to manual installation
-    local temp_dir=$(mktemp -d)
-    local gnome_version=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1,2)
+    local temp_dir
+    temp_dir=$(mktemp -d)
+    local gnome_version
+    gnome_version=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1,2)
 
     # Try to get extension info from extensions.gnome.org API
     local api_url="https://extensions.gnome.org/extension-info/?uuid=${extension_uuid}&shell_version=${gnome_version}"

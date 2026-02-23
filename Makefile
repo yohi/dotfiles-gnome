@@ -27,4 +27,4 @@ clean:
 .PHONY: test
 test:
 	@echo "==> Testing dotfiles-gnome"
-	@if [ -f "gnome-extensions/test-settings.sh" ]; then bash gnome-extensions/test-settings.sh; fi
+	@if [ ! -f "gnome-extensions/test-settings.sh" ]; then exit 0; else bash gnome-extensions/test-settings.sh; fi
