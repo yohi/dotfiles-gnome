@@ -385,7 +385,7 @@ toggle-tiling-popup=@as []
 applications=['org.gnome.tweaks.desktop', 'com.mattjakeman.ExtensionManager.desktop']
 
 [user-theme]
-name='Yaru'
+name='THEME_NAME_PLACEHOLDER'
 
 [vertical-workspaces]
 ws-thumbnails-full=false
