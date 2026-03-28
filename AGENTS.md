@@ -13,6 +13,8 @@
 ```text
 dotfiles-gnome/
 ├── _mk/                         # Makefile sub-targets
+│   ├── core.mk                 # -> common-mk/core.mk (symlink)
+│   ├── help.mk                 # -> common-mk/help.mk (symlink)
 │   ├── extensions.mk           # GNOME extension install targets
 │   ├── gnome.mk                # GNOME settings targets
 │   ├── mozc.mk                 # Mozc input method targets
