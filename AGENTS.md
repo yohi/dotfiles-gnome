@@ -1,3 +1,8 @@
+# Agent Instructions for dotfiles-gnome
+
+> [!IMPORTANT]
+> 共通の基本ルールは [DOTFILES_COMMON_RULES.md](./DOTFILES_COMMON_RULES.md) を参照してください。
+
 # PROJECT KNOWLEDGE BASE
 
 **Repository:** dotfiles-gnome
@@ -8,6 +13,8 @@
 ```text
 dotfiles-gnome/
 ├── _mk/                         # Makefile sub-targets
+│   ├── core.mk                 # -> common-mk/core.mk (symlink)
+│   ├── help.mk                 # -> common-mk/help.mk (symlink)
 │   ├── extensions.mk           # GNOME extension install targets
 │   ├── gnome.mk                # GNOME settings targets
 │   ├── mozc.mk                 # Mozc input method targets

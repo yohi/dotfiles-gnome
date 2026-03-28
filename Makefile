@@ -1,5 +1,15 @@
+# Orchestrator core configuration
+# Note: These are symlinked from ../../common-mk/ when managed by dotfiles-core
+-include _mk/core.mk
+-include _mk/help.mk
+
+# Component-specific logic
+
+
+
+
+
 REPO_ROOT ?= $(CURDIR)
-.DEFAULT_GOAL := setup
 include _mk/gnome.mk
 include _mk/mozc.mk
 include _mk/extensions.mk
@@ -10,17 +20,17 @@ include _mk/sticky-keys.mk
 all: setup link
 
 .PHONY: setup
-setup:
+setup: ## セットアップ（依存関係、設定適用）を一括実行します
 	@echo "==> Setting up dotfiles-gnome"
 
 .PHONY: link
-link:
+link: ## シンボリックリンクを展開し、dotfiles を配置します
 	@echo "==> Linking dotfiles-gnome"
 	mkdir -p $(HOME)/.config/mozc
 	ln -sfn $(REPO_ROOT)/dot-config/mozc/ibus_config.textproto $(HOME)/.config/mozc/ibus_config.textproto
 
 .PHONY: clean
-clean:
+clean: ## 生成物や一時ファイルを削除します
 	@echo "==> Cleaning up dotfiles-gnome"
 	rm -f $(HOME)/.config/mozc/ibus_config.textproto
 
