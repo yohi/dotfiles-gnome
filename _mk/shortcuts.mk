@@ -1,5 +1,5 @@
 # 短縮エイリアスのみを管理するファイル
-# 廃止予定の旧名エイリアスは mk/deprecated-targets.mk で扱う
+# 廃止予定の旧名エイリアスは _mk/deprecated-targets.mk で扱う
 
 # ==================== 短縮エイリアス ====================
 .PHONY: i s c u m h claudecode
