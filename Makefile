@@ -6,6 +6,9 @@ include _mk/help.mk
 -include _mk/shortcuts.mk
 -include _mk/sticky-keys.mk
 
+.PHONY: all install setup test clean
+all: install setup ## インストールとセットアップを全て実行します
+
 install: install-gnome ## GNOME 関連のインストール
 setup: setup-gnome ## GNOME の設定適用
 
@@ -15,7 +18,11 @@ install-gnome:
 setup-gnome:
 	@echo "==> Setting up dotfiles-gnome"
 	mkdir -p $(HOME)/.config/mozc
-	ln -sfn $(CURDIR)/dot-config/mozc/ibus_config.textproto $(HOME)/.config/mozc/ibus_config.textproto
+	@if [ ! -f "$(DOTFILES_SHELL_ROOT)/dotfiles-gnome/dot-config/mozc/ibus_config.textproto" ]; then \
+		echo "❌ Source file not found: $(DOTFILES_SHELL_ROOT)/dotfiles-gnome/dot-config/mozc/ibus_config.textproto"; \
+		exit 1; \
+	fi
+	ln -sfn $(DOTFILES_SHELL_ROOT)/dotfiles-gnome/dot-config/mozc/ibus_config.textproto $(HOME)/.config/mozc/ibus_config.textproto
 
 clean: ## 生成物や一時ファイルを削除します
 	@echo "==> Cleaning up dotfiles-gnome"
