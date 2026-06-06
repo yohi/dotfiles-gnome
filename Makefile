@@ -18,11 +18,11 @@ install-gnome:
 setup-gnome:
 	@echo "==> Setting up dotfiles-gnome"
 	mkdir -p $(HOME)/.config/mozc
-	@if [ ! -f "$(DOTFILES_SHELL_ROOT)/dotfiles-gnome/dot-config/mozc/ibus_config.textproto" ]; then \
-		echo "❌ Source file not found: $(DOTFILES_SHELL_ROOT)/dotfiles-gnome/dot-config/mozc/ibus_config.textproto"; \
+	@if [ ! -f "$(CURDIR)/dot-config/mozc/ibus_config.textproto" ]; then \
+		echo "❌ Source file not found: $(CURDIR)/dot-config/mozc/ibus_config.textproto"; \
 		exit 1; \
 	fi
-	ln -sfn $(DOTFILES_SHELL_ROOT)/dotfiles-gnome/dot-config/mozc/ibus_config.textproto $(HOME)/.config/mozc/ibus_config.textproto
+	ln -sfn $(CURDIR)/dot-config/mozc/ibus_config.textproto $(HOME)/.config/mozc/ibus_config.textproto
 
 clean: ## 生成物や一時ファイルを削除します
 	@echo "==> Cleaning up dotfiles-gnome"
