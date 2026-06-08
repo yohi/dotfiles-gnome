@@ -91,26 +91,25 @@ setup-mozc:
 	@echo "5. Configuring Mozc (Hiragana default & Keymap) using symbolic links..."
 	mkdir -p $(MOZC_CONFIG_DIR)
 
-	# 設定ファイル(ibus_config.textproto)を作成
-	# active_on_launch: True (起動時ひらがな)
-	# notification_on_mode_change: True (切り替え時にUIを表示)
-	# keymap_style: カスタムキーマップファイルが存在する場合は "custom"、存在しない場合は "default"
-	@if [ -f "$(MOZC_DOTFILES_CONFIG_DIR)/my_keymap.txt" ]; then \
-		echo "active_on_launch: True" > $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
-		echo "keymap_style: \"custom\"" >> $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
-		echo "notification_on_mode_change: True" >> $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
-		echo "✅ カスタムキーマップを使用します"; \
+	# ibus_config.textproto のセットアップ
+	@if [ -f "$(CURDIR)/dot-config/mozc/ibus_config.textproto" ]; then \
+		ln -sfn $$(realpath --relative-to=$(MOZC_CONFIG_DIR) $(CURDIR)/dot-config/mozc/ibus_config.textproto) $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
+		echo "✅ ibus_config.textproto をシンボリックリンク(相対パス)で設定しました"; \
 	else \
 		echo "active_on_launch: True" > $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
-		echo "keymap_style: \"default\"" >> $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
+		if [ -f "$(MOZC_DOTFILES_CONFIG_DIR)/my_keymap.txt" ]; then \
+			echo "keymap_style: \"custom\"" >> $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
+		else \
+			echo "keymap_style: \"default\"" >> $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
+		fi; \
 		echo "notification_on_mode_change: True" >> $(MOZC_CONFIG_DIR)/ibus_config.textproto; \
-		echo "📝 デフォルトキーマップを使用します（Ctrl+SpaceでIME切り替え）"; \
+		echo "📝 ibus_config.textproto を生成しました"; \
 	fi
 
 	# キーマップファイルの設定（カスタムキーマップが存在する場合のみ）
 	@if [ -f "$(MOZC_DOTFILES_CONFIG_DIR)/my_keymap.txt" ]; then \
-		ln -sf $(MOZC_DOTFILES_CONFIG_DIR)/my_keymap.txt $(MOZC_CONFIG_DIR)/user_keymap.txt; \
-		echo "✅ カスタムキーマップファイルを適用しました"; \
+		ln -sfn $$(realpath --relative-to=$(MOZC_CONFIG_DIR) $(MOZC_DOTFILES_CONFIG_DIR)/my_keymap.txt) $(MOZC_CONFIG_DIR)/user_keymap.txt; \
+		echo "✅ カスタムキーマップファイルをシンボリックリンク(相対パス)で適用しました"; \
 	fi
 
 	@echo "6. Configuring IBus indicator display..."
