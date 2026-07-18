@@ -109,11 +109,11 @@ apply_gnome_tweaks_settings() {
     log_info "🧩 拡張機能設定を適用中..."
     
     # 有効な拡張機能
-    ENABLED_EXTENSIONS="['bluetooth-quick-connect@bjarosze.gmail.com', 'tweaks-system-menu@extensions.gnome-shell.fifi.org', 'bluetooth-battery@michalw.github.com', 'window-app-switcher-on-active-monitor@NiKnights.com', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'Move_Clock@rmy.pobox.com', 'BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm', 'PrivacyMenu@stuarthayhurst', 'vertical-workspaces@G-dH.github.com', 'search-light@icedman.github.com', 'monitor@astraext.github.io', 'user-theme@gnome-shell-extensions.gcampax.github.com']"
+    ENABLED_EXTENSIONS="['window-app-switcher-on-active-monitor@NiKnights.com', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'bluetooth-quick-connect@bjarosze.gmail.com', 'BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm', 'PrivacyMenu@stuarthayhurst', 'search-light@icedman.github.com', 'codexbar@inled.es', 'blur-my-shell@aunetx', 'vertical-workspaces@G-dH.github.com', 'Move_Clock@rmy.pobox.com', 'monitor@astraext.github.io']"
     apply_dconf_setting "/org/gnome/shell/enabled-extensions" "$ENABLED_EXTENSIONS" "有効な拡張機能"
     
     # 無効な拡張機能
-    DISABLED_EXTENSIONS="['tiling-assistant@ubuntu.com', 'just-perfection-desktop@just-perfection', 'docker@stickman_0x00.com', 'dejaview@hedgie.tech', 'gtk4-ding@smedius.gitlab.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'clipboard-indicator@tudmotu.com', 'gsconnect@andyholmes.github.io', 'gse-haguichi-indicator@ztefn.github.com', 'custom-hot-corners-extended@G-dH.github.com', 'simulate-switching-workspaces-on-active-monitor@micheledaros.com', 'dash2dock-lite@icedman.github.com', 'system-monitor-next@paradoxxx.zero.gmail.com']"
+    DISABLED_EXTENSIONS="['tiling-assistant@ubuntu.com', 'just-perfection-desktop@just-perfection', 'docker@stickman_0x00.com', 'dejaview@hedgie.tech', 'gtk4-ding@smedius.gitlab.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'clipboard-indicator@tudmotu.com', 'gsconnect@andyholmes.github.io', 'gse-haguichi-indicator@ztefn.github.com', 'custom-hot-corners-extended@G-dH.github.com', 'simulate-switching-workspaces-on-active-monitor@micheledaros.com', 'dash2dock-lite@icedman.github.com', 'system-monitor-next@paradoxxx.zero.gmail.com', 'extension-list@tu.berry', 'openbar@neuromorph', 'tweaks-system-menu@extensions.gnome-shell.fifi.org', 'bluetooth-battery@michalw.github.com', 'appindicatorsupport@rgcjonas.gmail.com', 'ubuntu-appindicators@ubuntu.com']"
     apply_dconf_setting "/org/gnome/shell/disabled-extensions" "$DISABLED_EXTENSIONS" "無効な拡張機能"
     
     apply_dconf_setting "/org/gnome/shell/disable-user-extensions" "false" "ユーザー拡張機能を有効化"
@@ -199,11 +199,17 @@ apply_extension_settings() {
     apply_dconf_setting "/org/gnome/shell/extensions/openbar/font" "'IBM Plex Sans 9'" "OpenBarフォントサイズ: 9"
     apply_dconf_setting "/org/gnome/shell/extensions/openbar/default-font" "'Sans 9'" "OpenBarデフォルトフォントサイズ: 9"
     apply_dconf_setting "/org/gnome/shell/extensions/openbar/hpad" "0.0" "OpenBar水平パディング: 0.0"
-    apply_dconf_setting "/org/gnome/shell/extensions/openbar/margin" "2.0" "OpenBarマージン: 2.0"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/margin" "0.0" "OpenBarマージン: 0.0"
     
-    # Astra Monitor設定 (リセット状態をベースに共存させる)
-    log_info "📊 Astra Monitor設定をリセット..."
+    # Astra Monitor設定 (表示項目を維持しつつ数値をスリム化して共存させる)
+    log_info "📊 Astra Monitor設定を適用中..."
     dconf reset -f /org/gnome/shell/extensions/astra-monitor/ || true
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/processor-header-frequency" "true" "CPU周波数を表示"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-value" "true" "メモリ使用量を表示"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-value-figures" "1" "メモリ小数点以下桁数: 1"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/storage-header-io-figures" "1" "ストレージ小数点以下桁数: 1"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/network-header-io-figures" "1" "ネットワーク小数点以下桁数: 1"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/processor-header-frequency-figures" "1" "CPU周波数小数点以下桁数: 1"
     
     log_success "🎉 拡張機能設定の適用が完了しました！"
 }
