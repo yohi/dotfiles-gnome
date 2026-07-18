@@ -208,6 +208,8 @@ apply_extension_settings() {
     apply_dconf_setting "/org/gnome/shell/extensions/openbar/dark-bgcolor" "['0.878', '0.106', '0.141']" "OpenBarダークモード背景色: 赤"
     apply_dconf_setting "/org/gnome/shell/extensions/openbar/bgalpha" "0.5" "OpenBar背景透明度: 0.5"
     apply_dconf_setting "/org/gnome/shell/extensions/openbar/bgalpha-wmax" "0.5" "OpenBar最大化時背景透明度: 0.5"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/auto-bgalpha" "false" "OpenBar自動透明度を無効化"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/trigger-reload" "true" "OpenBarスタイルの強制再生成"
     
     # Astra Monitor設定 (表示項目を維持しつつ数値をスリム化して共存させる)
     log_info "📊 Astra Monitor設定を適用中..."
