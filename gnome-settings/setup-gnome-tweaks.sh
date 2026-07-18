@@ -196,8 +196,14 @@ apply_extension_settings() {
     
     # OpenBar設定 (トップバーのフォントサイズを縮小して表示領域を確保)
     log_info "🍺 OpenBar設定を適用中..."
-    apply_dconf_setting "/org/gnome/shell/extensions/openbar/font" "'IBM Plex Sans 10'" "OpenBarフォントサイズ: 10"
-    apply_dconf_setting "/org/gnome/shell/extensions/openbar/default-font" "'Sans 10'" "OpenBarデフォルトフォントサイズ: 10"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/font" "'IBM Plex Sans 9'" "OpenBarフォントサイズ: 9"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/default-font" "'Sans 9'" "OpenBarデフォルトフォントサイズ: 9"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/hpad" "0.0" "OpenBar水平パディング: 0.0"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/margin" "2.0" "OpenBarマージン: 2.0"
+    
+    # Astra Monitor設定 (リセット状態をベースに共存させる)
+    log_info "📊 Astra Monitor設定をリセット..."
+    dconf reset -f /org/gnome/shell/extensions/astra-monitor/ || true
     
     log_success "🎉 拡張機能設定の適用が完了しました！"
 }
