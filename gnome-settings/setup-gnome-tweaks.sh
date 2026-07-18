@@ -194,6 +194,11 @@ apply_extension_settings() {
     TWEAKS_APPS="['org.gnome.tweaks.desktop', 'com.mattjakeman.ExtensionManager.desktop']"
     apply_dconf_setting "/org/gnome/shell/extensions/tweaks-system-menu/applications" "$TWEAKS_APPS" "Tweaksシステムメニューアプリ"
     
+    # OpenBar設定 (トップバーのフォントサイズを縮小して表示領域を確保)
+    log_info "🍺 OpenBar設定を適用中..."
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/font" "'IBM Plex Sans 10'" "OpenBarフォントサイズ: 10"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/default-font" "'Sans 10'" "OpenBarデフォルトフォントサイズ: 10"
+    
     log_success "🎉 拡張機能設定の適用が完了しました！"
 }
 
