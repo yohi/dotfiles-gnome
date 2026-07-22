@@ -173,7 +173,7 @@ install_extension_from_ego() {
 
         if [ -n "$download_url" ]; then
             log "$extension_name のダウンロード中..."
-            if curl -L "https://extensions.gnome.org$download_url" -o "$temp_dir/extension.zip"; then
+            if curl -L --proto-redir=-all,https "https://extensions.gnome.org$download_url" -o "$temp_dir/extension.zip"; then
                 local install_dir="$HOME/.local/share/gnome-shell/extensions/$extension_uuid"
                 mkdir -p "$install_dir"
 
