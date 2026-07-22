@@ -109,11 +109,11 @@ apply_gnome_tweaks_settings() {
     log_info "🧩 拡張機能設定を適用中..."
     
     # 有効な拡張機能
-    ENABLED_EXTENSIONS="['window-app-switcher-on-active-monitor@NiKnights.com', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'bluetooth-quick-connect@bjarosze.gmail.com', 'BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm', 'PrivacyMenu@stuarthayhurst', 'search-light@icedman.github.com', 'codexbar@inled.es', 'blur-my-shell@aunetx', 'vertical-workspaces@G-dH.github.com', 'Move_Clock@rmy.pobox.com', 'monitor@astraext.github.io']"
+    ENABLED_EXTENSIONS="['window-app-switcher-on-active-monitor@NiKnights.com', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'bluetooth-quick-connect@bjarosze.gmail.com', 'BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm', 'PrivacyMenu@stuarthayhurst', 'search-light@icedman.github.com', 'codexbar@inled.es', 'blur-my-shell@aunetx', 'vertical-workspaces@G-dH.github.com', 'Move_Clock@rmy.pobox.com', 'monitor@astraext.github.io', 'openbar@neuromorph']"
     apply_dconf_setting "/org/gnome/shell/enabled-extensions" "$ENABLED_EXTENSIONS" "有効な拡張機能"
     
     # 無効な拡張機能
-    DISABLED_EXTENSIONS="['tiling-assistant@ubuntu.com', 'just-perfection-desktop@just-perfection', 'docker@stickman_0x00.com', 'dejaview@hedgie.tech', 'gtk4-ding@smedius.gitlab.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'clipboard-indicator@tudmotu.com', 'gsconnect@andyholmes.github.io', 'gse-haguichi-indicator@ztefn.github.com', 'custom-hot-corners-extended@G-dH.github.com', 'simulate-switching-workspaces-on-active-monitor@micheledaros.com', 'dash2dock-lite@icedman.github.com', 'system-monitor-next@paradoxxx.zero.gmail.com', 'extension-list@tu.berry', 'openbar@neuromorph', 'tweaks-system-menu@extensions.gnome-shell.fifi.org', 'bluetooth-battery@michalw.github.com', 'appindicatorsupport@rgcjonas.gmail.com', 'ubuntu-appindicators@ubuntu.com']"
+    DISABLED_EXTENSIONS="['tiling-assistant@ubuntu.com', 'just-perfection-desktop@just-perfection', 'docker@stickman_0x00.com', 'dejaview@hedgie.tech', 'gtk4-ding@smedius.gitlab.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'clipboard-indicator@tudmotu.com', 'gsconnect@andyholmes.github.io', 'gse-haguichi-indicator@ztefn.github.io', 'custom-hot-corners-extended@G-dH.github.com', 'simulate-switching-workspaces-on-active-monitor@micheledaros.com', 'dash2dock-lite@icedman.github.com', 'system-monitor-next@paradoxxx.zero.gmail.com', 'extension-list@tu.berry', 'tweaks-system-menu@extensions.gnome-shell.fifi.org', 'bluetooth-battery@michalw.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'ubuntu-appindicators@ubuntu.com']"
     apply_dconf_setting "/org/gnome/shell/disabled-extensions" "$DISABLED_EXTENSIONS" "無効な拡張機能"
     
     apply_dconf_setting "/org/gnome/shell/disable-user-extensions" "false" "ユーザー拡張機能を有効化"
@@ -213,7 +213,9 @@ apply_extension_settings() {
     
     # Astra Monitor設定 (表示項目を維持しつつ数値をスリム化して共存させる)
     log_info "📊 Astra Monitor設定を適用中..."
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/processor-header-percentage" "true" "CPU使用率を表示"
     apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/processor-header-frequency" "true" "CPU周波数を表示"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-percentage" "true" "メモリ使用率を表示"
     apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-value" "true" "メモリ使用量を表示"
     apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-value-figures" "1" "メモリ小数点以下桁数: 1"
     apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/storage-header-io-figures" "1" "ストレージ小数点以下桁数: 1"

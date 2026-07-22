@@ -206,6 +206,7 @@ install_extensions() {
         "bluetooth-battery@michalw.github.com|Bluetooth Battery Indicator"
         "bluetooth-quick-connect@bjarosze.gmail.com|Bluetooth Quick Connect"
         "Move_Clock@rmy.pobox.com|Move Clock"
+        "openbar@neuromorph|OpenBar"
         "tweaks-system-menu@extensions.gnome-shell.fifi.org|Tweaks & Extensions in System Menu"
         "BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm|Bring Out Submenu Of Power Off/Logout Button"
         "PrivacyMenu@stuarthayhurst|Privacy Menu"
@@ -248,6 +249,7 @@ enable_extensions() {
         "bluetooth-battery@michalw.github.com"
         "bluetooth-quick-connect@bjarosze.gmail.com"
         "Move_Clock@rmy.pobox.com"
+        "openbar@neuromorph"
         "tweaks-system-menu@extensions.gnome-shell.fifi.org"
         "BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm"
         "PrivacyMenu@stuarthayhurst"
@@ -346,6 +348,7 @@ verify_installation() {
     local critical_extensions=(
         "monitor@astraext.github.io"
         "search-light@icedman.github.com"
+        "openbar@neuromorph"
         "bluetooth-battery@michalw.github.com"
         "bluetooth-quick-connect@bjarosze.gmail.com"
         "tweaks-system-menu@extensions.gnome-shell.fifi.org"
