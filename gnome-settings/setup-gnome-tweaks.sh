@@ -213,7 +213,6 @@ apply_extension_settings() {
     
     # Astra Monitor設定 (表示項目を維持しつつ数値をスリム化して共存させる)
     log_info "📊 Astra Monitor設定を適用中..."
-    dconf reset -f /org/gnome/shell/extensions/astra-monitor/ || true
     apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/processor-header-frequency" "true" "CPU周波数を表示"
     apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-value" "true" "メモリ使用量を表示"
     apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-value-figures" "1" "メモリ小数点以下桁数: 1"
