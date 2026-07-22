@@ -84,6 +84,8 @@ setup-gnome-extensions:
 - **Bluetooth Battery Indicator** - Bluetooth デバイスのバッテリー表示
 - **Bluetooth Quick Connect** - Bluetooth デバイスの素早い接続
 - **Bring Out Submenu Of Power Off/Logout Button** - 電源・ログアウトメニューの改善
+- **CodexBar** - VS Code: 風のトップバー
+- **Blur My Shell** - シェル効果のブラー化
 - **Move Clock** - 時計の位置移動
 - **OpenBar** - トップバーの外観カスタマイズ
 - **Privacy Menu** - プライバシー設定への素早いアクセス
@@ -91,7 +93,6 @@ setup-gnome-extensions:
 - **Tweaks & Extensions in System Menu** - システムメニューへの Tweaks 統合
 - **Vertical Workspaces** - 垂直ワークスペース
 - **Astra Monitor** - システムモニタ
-
 ### 除外されたExtensions（手動管理）
 以下のExtensionsは自動インストールの対象から除外されており、必要に応じて手動でインストール・設定してください：
 

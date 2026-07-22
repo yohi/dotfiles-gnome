@@ -213,6 +213,8 @@ install_extensions() {
         "vertical-workspaces@G-dH.github.com|Vertical Workspaces"
         "monitor@astraext.github.io|Astra Monitor"
         "search-light@icedman.github.com|Search Light"
+        "codexbar@inled.es|CodexBar"
+        "blur-my-shell@aunetx|Blur My Shell"
     )
 
     local success_count=0
@@ -256,6 +258,8 @@ enable_extensions() {
         "vertical-workspaces@G-dH.github.com"
         "monitor@astraext.github.io"
         "search-light@icedman.github.com"
+        "codexbar@inled.es"
+        "blur-my-shell@aunetx"
     )
 
     # Wait a moment for extensions to be fully installed
