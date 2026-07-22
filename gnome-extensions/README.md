@@ -81,18 +81,15 @@ setup-gnome-extensions:
 ## 📦 インストールされる Extensions
 
 ### 自動インストール・有効化される Extensions
-- **Window App Switcher On Active Monitor** - アクティブモニタでのウィンドウ切り替え
-- **Desktop Icons NG (DING)** - デスクトップアイコン表示
-- **Ubuntu Dock** - Ubuntu標準ドック
-- **User Themes** - カスタムテーマのサポート
-- **Bluetooth Quick Connect** - Bluetoothデバイスの素早い接続
+- **Bluetooth Battery Indicator** - Bluetooth デバイスのバッテリー表示
+- **Bluetooth Quick Connect** - Bluetooth デバイスの素早い接続
 - **Bring Out Submenu Of Power Off/Logout Button** - 電源・ログアウトメニューの改善
+- **Move Clock** - 時計の位置移動
+- **OpenBar** - トップバーの外観カスタマイズ
 - **Privacy Menu** - プライバシー設定への素早いアクセス
 - **Search Light** - 検索機能の改善
-- **CodexBar** - Codexのステータス表示
-- **Blur My Shell** - GNOME Shellの背景ぼかし
+- **Tweaks & Extensions in System Menu** - システムメニューへの Tweaks 統合
 - **Vertical Workspaces** - 垂直ワークスペース
-- **Move Clock** - 時計の位置移動
 - **Astra Monitor** - システムモニタ
 
 ### 除外されたExtensions（手動管理）

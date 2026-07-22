@@ -142,6 +142,7 @@ dconf load /org/gnome/mutter/ < mutter.dconf
 - `vertical-workspaces@G-dH.github.com`: Vertical Workspaces
 - `Move_Clock@rmy.pobox.com`: Move Clock
 - `monitor@astraext.github.io`: Astra Monitor
+- `openbar@neuromorph`: OpenBar
 
 ## トラブルシューティング
 
