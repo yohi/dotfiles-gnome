@@ -109,11 +109,11 @@ apply_gnome_tweaks_settings() {
     log_info "🧩 拡張機能設定を適用中..."
     
     # 有効な拡張機能
-    ENABLED_EXTENSIONS="['bluetooth-quick-connect@bjarosze.gmail.com', 'tweaks-system-menu@extensions.gnome-shell.fifi.org', 'bluetooth-battery@michalw.github.com', 'window-app-switcher-on-active-monitor@NiKnights.com', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'Move_Clock@rmy.pobox.com', 'BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm', 'PrivacyMenu@stuarthayhurst', 'vertical-workspaces@G-dH.github.com', 'search-light@icedman.github.com', 'monitor@astraext.github.io', 'user-theme@gnome-shell-extensions.gcampax.github.com']"
+    ENABLED_EXTENSIONS="['window-app-switcher-on-active-monitor@NiKnights.com', 'ding@rastersoft.com', 'ubuntu-dock@ubuntu.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'bluetooth-quick-connect@bjarosze.gmail.com', 'BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm', 'PrivacyMenu@stuarthayhurst', 'search-light@icedman.github.com', 'codexbar@inled.es', 'blur-my-shell@aunetx', 'vertical-workspaces@G-dH.github.com', 'Move_Clock@rmy.pobox.com', 'monitor@astraext.github.io', 'openbar@neuromorph']"
     apply_dconf_setting "/org/gnome/shell/enabled-extensions" "$ENABLED_EXTENSIONS" "有効な拡張機能"
     
     # 無効な拡張機能
-    DISABLED_EXTENSIONS="['tiling-assistant@ubuntu.com', 'just-perfection-desktop@just-perfection', 'docker@stickman_0x00.com', 'dejaview@hedgie.tech', 'gtk4-ding@smedius.gitlab.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'clipboard-indicator@tudmotu.com', 'gsconnect@andyholmes.github.io', 'gse-haguichi-indicator@ztefn.github.com', 'custom-hot-corners-extended@G-dH.github.com', 'simulate-switching-workspaces-on-active-monitor@micheledaros.com', 'dash2dock-lite@icedman.github.com', 'system-monitor-next@paradoxxx.zero.gmail.com']"
+    DISABLED_EXTENSIONS="['tiling-assistant@ubuntu.com', 'just-perfection-desktop@just-perfection', 'docker@stickman_0x00.com', 'dejaview@hedgie.tech', 'gtk4-ding@smedius.gitlab.com', 'places-menu@gnome-shell-extensions.gcampax.github.com', 'clipboard-indicator@tudmotu.com', 'gsconnect@andyholmes.github.io', 'gse-haguichi-indicator@ztefn.github.io', 'custom-hot-corners-extended@G-dH.github.com', 'simulate-switching-workspaces-on-active-monitor@micheledaros.com', 'dash2dock-lite@icedman.github.com', 'system-monitor-next@paradoxxx.zero.gmail.com', 'extension-list@tu.berry', 'tweaks-system-menu@extensions.gnome-shell.fifi.org', 'bluetooth-battery@michalw.github.io', 'appindicatorsupport@rgcjonas.gmail.com', 'ubuntu-appindicators@ubuntu.com']"
     apply_dconf_setting "/org/gnome/shell/disabled-extensions" "$DISABLED_EXTENSIONS" "無効な拡張機能"
     
     apply_dconf_setting "/org/gnome/shell/disable-user-extensions" "false" "ユーザー拡張機能を有効化"
@@ -193,6 +193,34 @@ apply_extension_settings() {
     log_info "⚙️ Tweaks System Menu設定を適用中..."
     TWEAKS_APPS="['org.gnome.tweaks.desktop', 'com.mattjakeman.ExtensionManager.desktop']"
     apply_dconf_setting "/org/gnome/shell/extensions/tweaks-system-menu/applications" "$TWEAKS_APPS" "Tweaksシステムメニューアプリ"
+    
+    # OpenBar設定 (トップバーのフォントサイズを縮小して表示領域を確保)
+    log_info "🍺 OpenBar設定を適用中..."
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/font" "'IBM Plex Sans 9'" "OpenBarフォントサイズ: 9"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/default-font" "'Sans 9'" "OpenBarデフォルトフォントサイズ: 9"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/hpad" "0.0" "OpenBar水平パディング: 0.0"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/margin" "0.0" "OpenBarマージン: 0.0"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/autotheme-refresh" "false" "OpenBar自動テーマ更新を無効化"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/trigger-autotheme" "false" "OpenBar自動テーマ適用を無効化"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/bgpalette" "false" "OpenBarパレット機能を無効化"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/bgcolor" "['0.878', '0.106', '0.141']" "OpenBar標準背景色: 赤"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/light-bgcolor" "['0.878', '0.106', '0.141']" "OpenBarライトモード背景色: 赤"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/dark-bgcolor" "['0.878', '0.106', '0.141']" "OpenBarダークモード背景色: 赤"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/bgalpha" "0.5" "OpenBar背景透明度: 0.5"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/bgalpha-wmax" "0.5" "OpenBar最大化時背景透明度: 0.5"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/auto-bgalpha" "false" "OpenBar自動透明度を無効化"
+    apply_dconf_setting "/org/gnome/shell/extensions/openbar/trigger-reload" "true" "OpenBarスタイルの強制再生成"
+    
+    # Astra Monitor設定 (表示項目を維持しつつ数値をスリム化して共存させる)
+    log_info "📊 Astra Monitor設定を適用中..."
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/processor-header-percentage" "true" "CPU使用率を表示"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/processor-header-frequency" "true" "CPU周波数を表示"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-percentage" "true" "メモリ使用率を表示"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-value" "true" "メモリ使用量を表示"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/memory-header-value-figures" "1" "メモリ小数点以下桁数: 1"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/storage-header-io-figures" "1" "ストレージ小数点以下桁数: 1"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/network-header-io-figures" "1" "ネットワーク小数点以下桁数: 1"
+    apply_dconf_setting "/org/gnome/shell/extensions/astra-monitor/processor-header-frequency-figures" "1" "CPU周波数小数点以下桁数: 1"
     
     log_success "🎉 拡張機能設定の適用が完了しました！"
 }

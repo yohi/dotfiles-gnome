@@ -81,23 +81,21 @@ setup-gnome-extensions:
 ## 📦 インストールされる Extensions
 
 ### 自動インストール・有効化される Extensions
-- **Bluetooth Battery Indicator** - Bluetoothデバイスのバッテリー残量表示
-- **Bluetooth Quick Connect** - Bluetoothデバイスの素早い接続
-- **Move Clock** - 時計の位置移動
-- **Tweaks & Extensions in System Menu** - システムメニューからTweaks・Extensions管理
+- **Bluetooth Battery Indicator** - Bluetooth デバイスのバッテリー表示
+- **Bluetooth Quick Connect** - Bluetooth デバイスの素早い接続
 - **Bring Out Submenu Of Power Off/Logout Button** - 電源・ログアウトメニューの改善
+- **CodexBar** - VS Code: 風のトップバー
+- **Blur My Shell** - シェル効果のブラー化
+- **Move Clock** - 時計の位置移動
+- **OpenBar** - トップバーの外観カスタマイズ
 - **Privacy Menu** - プライバシー設定への素早いアクセス
+- **Search Light** - 検索機能の改善
+- **Tweaks & Extensions in System Menu** - システムメニューへの Tweaks 統合
 - **Vertical Workspaces** - 垂直ワークスペース
 - **Astra Monitor** - システムモニタ
-- **Search Light** - 検索機能の改善
-
 ### 除外されたExtensions（手動管理）
 以下のExtensionsは自動インストールの対象から除外されており、必要に応じて手動でインストール・設定してください：
 
-- **Ubuntu AppIndicators** - システムデフォルト
-- **Ubuntu Dock** - システムデフォルト
-- **Desktop Icons NG (DING)** - システムデフォルト
-- **User Themes** - カスタムテーマのサポート
 - **GSConnect** - Android デバイスとの連携
 - **Tiling Assistant** - ウィンドウタイリング支援
 - **Clipboard Indicator** - クリップボード履歴
@@ -105,7 +103,6 @@ setup-gnome-extensions:
 - **System Monitor Next** - 詳細なシステムモニタ
 - **Just Perfection** - GNOME Shell のカスタマイズ
 - **Docker** - Docker コンテナ管理
-- **Window App Switcher On Active Monitor** - アクティブモニタでのウィンドウ切り替え
 - その他多数
 
 ## ⚙️ 動作要件

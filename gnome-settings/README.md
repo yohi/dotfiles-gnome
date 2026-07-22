@@ -129,18 +129,20 @@ dconf load /org/gnome/mutter/ < mutter.dconf
 
 以下の拡張機能が有効化されます：
 
-- `bluetooth-quick-connect@bjarosze.gmail.com`: Bluetooth Quick Connect
-- `tweaks-system-menu@extensions.gnome-shell.fifi.org`: Tweaks System Menu
-- `bluetooth-battery@michalw.github.com`: Bluetooth Battery Indicator
 - `window-app-switcher-on-active-monitor@NiKnights.com`: Window App Switcher
 - `ding@rastersoft.com`: Desktop Icons NG
 - `ubuntu-dock@ubuntu.com`: Ubuntu Dock
-- `Move_Clock@rmy.pobox.com`: Move Clock
+- `user-theme@gnome-shell-extensions.gcampax.github.com`: User Themes
+- `bluetooth-quick-connect@bjarosze.gmail.com`: Bluetooth Quick Connect
 - `BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm`: Power Options
 - `PrivacyMenu@stuarthayhurst`: Privacy Menu
-- `vertical-workspaces@G-dH.github.com`: Vertical Workspaces
 - `search-light@icedman.github.com`: Search Light
+- `codexbar@inled.es`: CodexBar
+- `blur-my-shell@aunetx`: Blur My Shell
+- `vertical-workspaces@G-dH.github.com`: Vertical Workspaces
+- `Move_Clock@rmy.pobox.com`: Move Clock
 - `monitor@astraext.github.io`: Astra Monitor
+- `openbar@neuromorph`: OpenBar
 
 ## トラブルシューティング
 

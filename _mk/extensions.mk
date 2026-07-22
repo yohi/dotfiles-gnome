@@ -146,3 +146,12 @@ fix-extensions-schema:
 
 	@echo "✅ 拡張機能スキーマの修正が完了しました。"
 	@echo "ℹ️  変更を反映するため、ログアウト・ログインまたはAlt+F2でrを実行してください。"
+
+.PHONY: install-v-shell
+install-v-shell: ## V-Shell (vertical-workspaces) をGitHubから最新ビルドしてインストールします
+	@set -e; tmp_dir=$$(mktemp -d /tmp/v-shell-src.XXXXXX); \
+	trap 'rm -rf "$$tmp_dir"' EXIT; \
+	echo "🔄 V-Shell (vertical-workspaces) を最新の開発版に更新中..."; \
+	git clone --depth 1 https://github.com/G-dH/vertical-workspaces.git "$$tmp_dir" && \
+	make -C "$$tmp_dir" install && \
+	echo "✅ V-Shell の最新版インストールが完了しました。"

@@ -173,7 +173,7 @@ install_extension_from_ego() {
 
         if [ -n "$download_url" ]; then
             log "$extension_name のダウンロード中..."
-            if curl -L "https://extensions.gnome.org$download_url" -o "$temp_dir/extension.zip"; then
+            if curl -fsSL --proto =https "https://extensions.gnome.org$download_url" -o "$temp_dir/extension.zip"; then
                 local install_dir="$HOME/.local/share/gnome-shell/extensions/$extension_uuid"
                 mkdir -p "$install_dir"
 
@@ -206,12 +206,15 @@ install_extensions() {
         "bluetooth-battery@michalw.github.com|Bluetooth Battery Indicator"
         "bluetooth-quick-connect@bjarosze.gmail.com|Bluetooth Quick Connect"
         "Move_Clock@rmy.pobox.com|Move Clock"
+        "openbar@neuromorph|OpenBar"
         "tweaks-system-menu@extensions.gnome-shell.fifi.org|Tweaks & Extensions in System Menu"
         "BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm|Bring Out Submenu Of Power Off/Logout Button"
         "PrivacyMenu@stuarthayhurst|Privacy Menu"
         "vertical-workspaces@G-dH.github.com|Vertical Workspaces"
         "monitor@astraext.github.io|Astra Monitor"
         "search-light@icedman.github.com|Search Light"
+        "codexbar@inled.es|CodexBar"
+        "blur-my-shell@aunetx|Blur My Shell"
     )
 
     local success_count=0
@@ -248,12 +251,15 @@ enable_extensions() {
         "bluetooth-battery@michalw.github.com"
         "bluetooth-quick-connect@bjarosze.gmail.com"
         "Move_Clock@rmy.pobox.com"
+        "openbar@neuromorph"
         "tweaks-system-menu@extensions.gnome-shell.fifi.org"
         "BringOutSubmenuOfPowerOffLogoutButton@pratap.fastmail.fm"
         "PrivacyMenu@stuarthayhurst"
         "vertical-workspaces@G-dH.github.com"
         "monitor@astraext.github.io"
         "search-light@icedman.github.com"
+        "codexbar@inled.es"
+        "blur-my-shell@aunetx"
     )
 
     # Wait a moment for extensions to be fully installed
@@ -346,6 +352,7 @@ verify_installation() {
     local critical_extensions=(
         "monitor@astraext.github.io"
         "search-light@icedman.github.com"
+        "openbar@neuromorph"
         "bluetooth-battery@michalw.github.com"
         "bluetooth-quick-connect@bjarosze.gmail.com"
         "tweaks-system-menu@extensions.gnome-shell.fifi.org"
