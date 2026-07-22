@@ -149,9 +149,9 @@ fix-extensions-schema:
 
 .PHONY: install-v-shell
 install-v-shell: ## V-Shell (vertical-workspaces) をGitHubから最新ビルドしてインストールします
-	@echo "🔄 V-Shell (vertical-workspaces) を最新の開発版に更新中..."
-	@rm -rf /tmp/v-shell-src
-	@git clone --depth 1 https://github.com/G-dH/vertical-workspaces.git /tmp/v-shell-src
-	@make -C /tmp/v-shell-src install
-	@rm -rf /tmp/v-shell-src
-	@echo "✅ V-Shell の最新版インストールが完了しました。"
+	@tmp_dir=$$(mktemp -d /tmp/v-shell-src.XXXXXX); \
+	trap 'rm -rf "$$tmp_dir"' EXIT; \
+	echo "🔄 V-Shell (vertical-workspaces) を最新の開発版に更新中..."; \
+	git clone --depth 1 https://github.com/G-dH/vertical-workspaces.git "$$tmp_dir"; \
+	make -C "$$tmp_dir" install; \
+	echo "✅ V-Shell の最新版インストールが完了しました。"
